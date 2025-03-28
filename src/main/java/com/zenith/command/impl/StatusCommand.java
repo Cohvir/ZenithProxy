@@ -67,14 +67,17 @@ public class StatusCommand extends Command {
     private String getStatus() {
         if (Proxy.getInstance().isConnected()) {
             if (Proxy.getInstance().isInQueue()) {
+                boolean predictionModelEnabled = CONFIG.server.useQueuePredictionModel;
+                String etaPrefix = predictionModelEnabled ? "ETA (Prediction): " : "ETA: ";
+                
                 if (Proxy.getInstance().isPrio()) {
                     return "In Prio Queue [" + Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().prio() + "]\n"
-                        + "ETA: " + Queue.getQueueEta(Proxy.getInstance().getQueuePosition()) + "\n"
-                        + "(" + TimeFormat.TIME_LONG.format(Instant.now().plus(Duration.ofSeconds(Queue.getQueueWait(Proxy.getInstance().getQueuePosition())))) +")";
+                        + etaPrefix + Queue.getQueueEta(Proxy.getInstance().getQueuePosition()) + "\n"
+                        + "(" + java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(java.time.LocalDateTime.now().plusSeconds(Queue.getQueueWait(Proxy.getInstance().getQueuePosition()))) +")";                
                 } else {
                     return "In Queue [" + Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().regular() + "]\n"
-                        + "ETA: " + Queue.getQueueEta(Proxy.getInstance().getQueuePosition()) + "\n"
-                        + "(" + TimeFormat.TIME_LONG.format(Instant.now().plus(Duration.ofSeconds(Queue.getQueueWait(Proxy.getInstance().getQueuePosition())))) +")";
+                        + etaPrefix + Queue.getQueueEta(Proxy.getInstance().getQueuePosition()) + "\n"
+                        + "(" + java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(java.time.LocalDateTime.now().plusSeconds(Queue.getQueueWait(Proxy.getInstance().getQueuePosition()))) +")";                
                 }
             } else {
                 return "Online";
@@ -85,8 +88,11 @@ public class StatusCommand extends Command {
     }
 
     private String getQueueStatus() {
-        return "Priority: " + Queue.getQueueStatus().prio() + " [" + Queue.getQueueEta(Queue.getQueueStatus().prio()) + "]"
-                + "\nRegular: " + Queue.getQueueStatus().regular() + " [" + Queue.getQueueEta(Queue.getQueueStatus().regular()) + "]";
+        boolean predictionModelEnabled = CONFIG.server.useQueuePredictionModel;
+        String etaPrefix = predictionModelEnabled ? "(Prediction) " : "";
+        
+        return "Priority: " + Queue.getQueueStatus().prio() + " [" + etaPrefix + Queue.getQueueEta(Queue.getQueueStatus().prio()) + "]"
+                + "\nRegular: " + Queue.getQueueStatus().regular() + " [" + etaPrefix + Queue.getQueueEta(Queue.getQueueStatus().regular()) + "]";
     }
 
     public String getOnlineTime() {

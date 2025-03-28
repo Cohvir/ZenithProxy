@@ -443,9 +443,12 @@ public class NotificationEventListener {
         } else {
             queueLength = Queue.getQueueStatus().regular();
         }
+        boolean predictionModelEnabled = CONFIG.server.useQueuePredictionModel;
+        String etaFieldName = predictionModelEnabled ? "ETA (Prediction)" : "ETA";
+        
         var embed = Embed.builder()
             .title("Active Hours Connect Triggered")
-            .addField("ETA", Queue.getQueueEta(queueLength), false)
+            .addField(etaFieldName, Queue.getQueueEta(queueLength), false)
             .primaryColor();
         if (event.willWait())
             embed.addField("Info", "Waiting 1 minute to avoid 2b2t reconnect queue skip", false);

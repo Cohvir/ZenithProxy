@@ -471,6 +471,7 @@ public final class Config {
         public String proxyIP = "localhost";
         public int queueStatusRefreshMinutes = 5; // how often to refresh queue lengths
         public boolean dynamicQueueEtaEquation = true;
+        public boolean useQueuePredictionModel = true; // whether to use the ML model for queue predictions
         public boolean healthCheck = true;
         public long playerListsRefreshIntervalMins = 1440L; // one day as default
         public final Spectator spectator = new Spectator();

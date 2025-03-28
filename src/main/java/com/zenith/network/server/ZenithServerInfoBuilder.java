@@ -111,10 +111,13 @@ public class ZenithServerInfoBuilder {
             var result = new GameProfile[connections.length];
             for (int i = 0; i < connections.length; i++) {
                 var connection = connections[i];
-                result[i] = connection.profileCache.getProfile();
+                if (connection != null && connection.profileCache != null && connection.profileCache.getProfile() != null) {
+                    result[i] = connection.profileCache.getProfile();
+                }
             }
             return result;
         } catch (final Throwable e) {
+            SERVER_LOG.error("Error getting online player profiles for server ping", e);
             return new GameProfile[0];
         }
     }

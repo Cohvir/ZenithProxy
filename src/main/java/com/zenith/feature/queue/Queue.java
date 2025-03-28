@@ -24,6 +24,29 @@ public class Queue {
     private volatile static Instant lastUpdate = Instant.EPOCH;
     private static QueueEtaEquationResponse queueEtaEquation = new QueueEtaEquationResponse(343.0, 0.743);
     private static Instant lastQueueEtaEquationUpdate = Instant.EPOCH;
+    private static boolean usePredictionModel = true;
+    
+    // Initialize the prediction model state from config
+    static {
+        // Check if there's a config setting to disable the prediction model
+        if (CONFIG != null && CONFIG.server != null) {
+            try {
+                // Add a field to Config.java if needed: server.useQueuePredictionModel = true;
+                java.lang.reflect.Field field = CONFIG.server.getClass().getDeclaredField("useQueuePredictionModel");
+                field.setAccessible(true);
+                Boolean configValue = (Boolean) field.get(CONFIG.server);
+                if (configValue != null) {
+                    usePredictionModel = configValue;
+                    SERVER_LOG.info("Queue prediction model is {}", usePredictionModel ? "enabled" : "disabled");
+                }
+            } catch (NoSuchFieldException e) {
+                // Field doesn't exist yet, will be added in a future update
+                SERVER_LOG.debug("useQueuePredictionModel config option not found, using default: {}", usePredictionModel);
+            } catch (Exception e) {
+                SERVER_LOG.error("Error initializing queue prediction model setting", e);
+            }
+        }
+    }
 
     public static void start() {
         EXECUTOR.scheduleAtFixedRate(
@@ -58,7 +81,41 @@ public class Queue {
 
     // returns seconds until estimated queue completion time
     public static long getQueueWait(final Integer queuePos) {
-        return (long) (queueEtaEquation.factor() * (Math.pow(queuePos.doubleValue(), queueEtaEquation.pow())));
+        // Check for potential circular call from QueuePredictionModel
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        for (int i = 0; i < Math.min(8, stackTrace.length); i++) {
+            if (stackTrace[i].getClassName().contains("QueuePredictionModel")) {
+                // Detected circular call, use standard calculation
+                return (long) (queueEtaEquation.factor() * (Math.pow(queuePos.doubleValue(), queueEtaEquation.pow())));
+            }
+        }
+        
+        // Calculate standard ETA for comparison and fallback
+        long standardEta = (long) (queueEtaEquation.factor() * (Math.pow(queuePos.doubleValue(), queueEtaEquation.pow())));
+        
+        if (usePredictionModel) {
+            try {
+                // Use the prediction model for more accurate wait times
+                SERVER_LOG.debug("Using prediction model for queue position {}", queuePos);
+                long predictedWait = com.zenith.feature.queue.prediction.QueuePredictionModel.getINSTANCE().predictQueueWait(queuePos);
+                
+                // Log the difference between standard and prediction model
+                long difference = predictedWait - standardEta;
+                String differenceStr = difference > 0 ? "+" + difference : String.valueOf(difference);
+                SERVER_LOG.debug("Queue prediction for position {}: standard={}, prediction={}, difference={} seconds", 
+                               queuePos, standardEta, predictedWait, differenceStr);
+                
+                return predictedWait;
+            } catch (Exception e) {
+                SERVER_LOG.error("Error using queue prediction model, falling back to standard calculation", e);
+                // Fall back to standard calculation if prediction fails
+                return standardEta;
+            }
+        } else {
+            // Use standard calculation if prediction model is disabled
+            SERVER_LOG.debug("Using standard calculation for queue position {}: {} seconds", queuePos, standardEta);
+            return standardEta;
+        }
     }
 
     public static String getEtaStringFromSeconds(final long totalSeconds) {

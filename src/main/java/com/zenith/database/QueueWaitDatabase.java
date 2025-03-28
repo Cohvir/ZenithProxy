@@ -73,6 +73,15 @@ public class QueueWaitDatabase extends Database {
         if (nonNull(initialQueueTime) && nonNull(initialQueueLen)) {
             if (queueCompleteTime.minus(MIN_QUEUE_DURATION).isAfter(initialQueueTime)) {
                 writeQueueWait(initialQueueLen, initialQueueTime, queueCompleteTime);
+                
+                // Update the prediction model with actual completion data
+                try {
+                    com.zenith.feature.queue.prediction.QueuePredictionModel.getINSTANCE()
+                        .recordActualCompletion(initialQueueLen, initialQueueTime, queueCompleteTime);
+                } catch (Exception e) {
+                    // SERVER_LOG.error("Failed to update queue prediction model", e);
+                    System.err.println("Failed to update queue prediction model: " + e.getMessage());
+                }
             }
         }
         // todo: filter obvious undetected restart queues based on initial queue len and actual queue time

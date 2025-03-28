@@ -46,6 +46,7 @@ public class ActiveHoursCommand extends Command {
                 "on/off",
                 "timezone <timezone ID>",
                 "add/del <time>",
+                "once <time>",
                 "status",
                 "whilePlayerConnected on/off",
                 "queueEtaCalc on/off"
@@ -104,8 +105,10 @@ public class ActiveHoursCommand extends Command {
                         .addField("Help", "Time format: XX:XX, e.g.: 1:42, 14:42, 14:01", false);
                     return ERROR;
                 } else {
+                    // Create a regular ActiveTime for comparison
                     final ActiveTime activeTime = ActiveTime.fromString(time);
-                    CONFIG.client.extra.utility.actions.activeHours.activeTimes.removeIf(s -> s.equals(activeTime));
+                    // Remove any ActiveTime that matches the hour and minute, regardless of oneTime flag
+                    CONFIG.client.extra.utility.actions.activeHours.activeTimes.removeIf(s -> s.hour() == activeTime.hour() && s.minute() == activeTime.minute());
                     c.getSource().getEmbed()
                         .title("Removed time: " + time);
                     return OK;
@@ -128,7 +131,25 @@ public class ActiveHoursCommand extends Command {
                           c.getSource().getEmbed()
                               .title("Queue ETA Calc Set!");
                           return OK;
-                      })));
+                      })))
+            .then(literal("once").then(argument("time", wordWithChars()).executes(c -> {
+                final String time = StringArgumentType.getString(c, "time");
+                if (!timeMatchesRegex(time)) {
+                    c.getSource().getEmbed()
+                        .title("Invalid Time Format")
+                        .addField("Help", "Time format: XX:XX, e.g.: 1:42, 14:42, 14:01", false);
+                    return ERROR;
+                } else {
+                    final ActiveTime activeTime = ActiveTime.fromString(time, true);
+                    if (!CONFIG.client.extra.utility.actions.activeHours.activeTimes.contains(activeTime)) {
+                        CONFIG.client.extra.utility.actions.activeHours.activeTimes.add(activeTime);
+                    }
+                    c.getSource().getEmbed()
+                                 .title("Added one-time schedule: " + time)
+                                 .addField("Info", "This schedule will be automatically removed after it triggers a connection", false);
+                    return OK;
+                }
+            })));
     }
 
     private boolean timeMatchesRegex(final String arg) {
@@ -148,7 +169,7 @@ public class ActiveHoursCommand extends Command {
                         return a.hour() - b.hour();
                     }
                 })
-                .map(ActiveTime::toString)
+                .map(time -> time.toString() + (time.oneTime() ? " (once)" : ""))
                 .collect(Collectors.joining(", "));
     }
 

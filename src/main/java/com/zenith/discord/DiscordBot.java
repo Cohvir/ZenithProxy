@@ -250,10 +250,13 @@ public class DiscordBot {
     }
 
     public static String queuePositionStr() {
+        boolean predictionModelEnabled = CONFIG.server.useQueuePredictionModel;
+        String etaPrefix = predictionModelEnabled ? "ETA (Prediction): " : "ETA: ";
+        
         if (Proxy.getInstance().isPrio())
-            return Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().prio() + " - ETA: " + Queue.getQueueEta(Proxy.getInstance().getQueuePosition());
+            return Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().prio() + " - " + etaPrefix + Queue.getQueueEta(Proxy.getInstance().getQueuePosition());
         else
-            return Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().regular() + " - ETA: " + Queue.getQueueEta(Proxy.getInstance().getQueuePosition());
+            return Proxy.getInstance().getQueuePosition() + " / " + Queue.getQueueStatus().regular() + " - " + etaPrefix + Queue.getQueueEta(Proxy.getInstance().getQueuePosition());
     }
 
     public static boolean validateButtonInteractionEventFromAccountOwner(final ButtonInteractionEvent event) {

@@ -35,4 +35,8 @@ public class VcApi extends Api {
     public Optional<SessionTimeLimitResponse> getSessionTimeLimit() {
         return get("/limits/session-time-limit", SessionTimeLimitResponse.class);
     }
+    
+    public Optional<QueueMonthResponse> getQueueMonth() {
+        return get("/queue/month", QueueMonthResponse.class);
+    }
 }
