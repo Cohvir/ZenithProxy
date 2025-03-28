@@ -8,5 +8,6 @@ public record FoodData(
     int stackSize,
     float foodPoints,
     float saturation,
+    boolean canAlwaysEat,
     boolean isSafeFood
 ) implements RegistryData { }

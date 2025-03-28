@@ -25,6 +25,6 @@ if [ "$has_pip" = 1 ] ; then
   exit 1
 fi
 echo Verifying requirements...
-$PYTHON_CMD -m pip install -r requirements.txt -qq --disable-pip-version-check --no-input
+$PYTHON_CMD -m pip install --upgrade --requirement requirements.txt -qq --disable-pip-version-check --no-input
 echo Starting Launcher...
 $PYTHON_CMD launcher-py.zip "$@"

@@ -9,7 +9,7 @@ import com.zenith.event.proxy.DisconnectEvent;
 import com.zenith.module.Module;
 import com.zenith.util.Wait;
 import org.geysermc.mcprotocollib.protocol.MinecraftConstants;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;

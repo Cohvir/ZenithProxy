@@ -11,7 +11,6 @@ import com.zenith.feature.extrachat.ECSystemChatOutgoingHandler;
 import com.zenith.module.Module;
 import com.zenith.network.registry.PacketHandlerCodec;
 import com.zenith.network.registry.PacketHandlerStateCodec;
-import com.zenith.network.server.ServerSession;
 import com.zenith.util.ComponentSerializer;
 import org.geysermc.mcprotocollib.protocol.data.ProtocolState;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundPlayerChatPacket;
@@ -41,11 +40,10 @@ public class ExtraChat extends Module {
 
     @Override
     public PacketHandlerCodec registerServerPacketHandlerCodec() {
-        return PacketHandlerCodec.builder()
+        return PacketHandlerCodec.serverBuilder()
             .setId("extra-chat")
             .setPriority(-1)
-            .state(ProtocolState.GAME, PacketHandlerStateCodec.<ServerSession>builder()
-                .allowUnhandledInbound(true)
+            .state(ProtocolState.GAME, PacketHandlerStateCodec.serverBuilder()
                 .registerOutbound(ClientboundSystemChatPacket.class, new ECSystemChatOutgoingHandler())
                 .registerOutbound(ClientboundPlayerChatPacket.class, new ECPlayerChatOutgoingHandler())
                 .registerInbound(ServerboundChatCommandPacket.class, new ECChatCommandIncomingHandler())

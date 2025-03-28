@@ -9,11 +9,11 @@ import com.zenith.feature.world.Input;
 import com.zenith.feature.world.InputRequest;
 import com.zenith.mc.food.FoodData;
 import com.zenith.mc.food.FoodRegistry;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.player.GameMode;
 import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 
 import static com.github.rfresh2.EventConsumer.of;
@@ -23,7 +23,7 @@ public class AutoEat extends AbstractInventoryModule {
     private int delay = 0;
     private Instant lastAutoEatOutOfFoodWarning = Instant.EPOCH;
     private boolean isEating = false;
-    private static final int MOVEMENT_PRIORITY = 1000;
+    public static final int MOVEMENT_PRIORITY = 1000;
 
     public AutoEat() {
         super(HandRestriction.EITHER, 0, MOVEMENT_PRIORITY);
@@ -48,15 +48,17 @@ public class AutoEat extends AbstractInventoryModule {
 
     public void handleClientTick(final ClientBotTick e) {
         if (CACHE.getPlayerCache().getThePlayer().isAlive()
-                && playerHealthBelowThreshold()
-                && Proxy.getInstance().getOnlineTimeSeconds() > 10) {
+            && CACHE.getPlayerCache().getGameMode() != GameMode.CREATIVE
+            && CACHE.getPlayerCache().getGameMode() != GameMode.SPECTATOR
+            && playerHealthBelowThreshold()
+            && Proxy.getInstance().getOnlineTimeSeconds() > 1) {
             if (delay > 0) {
                 delay--;
                 if (isEating) {
                     INPUTS.submit(InputRequest.builder()
                                       .priority(MOVEMENT_PRIORITY)
                                       .build());
-                    INVENTORY.invActionReq(this, Collections.emptyList(), MOVEMENT_PRIORITY);
+                    INVENTORY.invActionReq(this, MOVEMENT_PRIORITY);
                 }
                 return;
             }
@@ -114,6 +116,7 @@ public class AutoEat extends AbstractInventoryModule {
     @Override
     public boolean itemPredicate(final ItemStack itemStack) {
         FoodData foodData = FoodRegistry.REGISTRY.get(itemStack.getId());
-        return foodData != null && foodData.isSafeFood();
+        boolean canEat = CACHE.getPlayerCache().getThePlayer().getFood() < 20;
+        return foodData != null && foodData.isSafeFood() && (canEat || foodData.canAlwaysEat());
     }
 }

@@ -4,7 +4,6 @@ import com.zenith.cache.data.PlayerCache;
 import com.zenith.feature.spectator.entity.SpectatorEntity;
 import org.geysermc.mcprotocollib.auth.GameProfile;
 import org.geysermc.mcprotocollib.network.packet.Packet;
-import org.geysermc.mcprotocollib.protocol.data.game.entity.object.GenericObjectData;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.spawn.ClientboundAddEntityPacket;
 
@@ -19,15 +18,11 @@ public abstract class SpectatorMob extends SpectatorEntity {
             entityId,
             uuid,
             getType(),
-            new GenericObjectData(0),
             playerCache.getX(),
             playerCache.getY(),
             playerCache.getZ(),
             playerCache.getYaw(),
             playerCache.getYaw(), // todo: head yaw
-            playerCache.getPitch(),
-            0f,
-            0f,
-            0f);
+            playerCache.getPitch());
     }
 }

@@ -81,7 +81,7 @@ public class SpectatorCommand extends Command {
                                                    .title("Failed to add user: " + escape(playerName) + " to whitelist. Unable to lookup profile.")
                                                    .errorColor()
                                                    .description(spectatorWhitelist()));
-                          return 1;
+                          return OK;
                       })))
                       .then(literal("del").then(argument("player", string()).executes(c -> {
                           final String playerName = StringArgumentType.getString(c, "player");
@@ -91,7 +91,7 @@ public class SpectatorCommand extends Command {
                               .primaryColor()
                               .description(spectatorWhitelist());
                           Proxy.getInstance().kickNonWhitelistedPlayers();
-                          return 1;
+                          return OK;
                       })))
                       .then(literal("clear").executes(c -> {
                           PLAYER_LISTS.getSpectatorWhitelist().clear();
@@ -128,7 +128,7 @@ public class SpectatorCommand extends Command {
                                   .description(entityList())
                                   .errorColor();
                           }
-                          return 1;
+                          return OK;
                       })))
             .then(literal("chat")
                       .then(argument("toggle", toggle()).executes(c -> {
@@ -137,7 +137,7 @@ public class SpectatorCommand extends Command {
                                 .title("Spectator Chat " + toggleStrCaps(CONFIG.server.spectator.spectatorPublicChatEnabled))
                                 .primaryColor()
                                 .description(spectatorWhitelist());
-                            return 1;
+                            return OK;
                       })))
             .then(literal("playerCamOnJoin").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.server.spectator.playerCamOnJoin = getToggle(c, "toggle");

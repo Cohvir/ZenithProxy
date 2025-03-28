@@ -2,9 +2,9 @@ package com.zenith.network.client.handler.incoming;
 
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.data.game.advancement.Advancement;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundUpdateAdvancementsPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.HashMap;
 

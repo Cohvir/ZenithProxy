@@ -8,7 +8,7 @@ import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.Equipment;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.ClientboundRotateHeadPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.ClientboundSetEquipmentPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.spawn.ClientboundAddEntityPacket;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Consumer;
 
@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 public class EntityStandard extends EntityLiving {
 
     @Override
-    public void addPackets(final @NotNull Consumer<Packet> consumer) {
+    public void addPackets(final @NonNull Consumer<Packet> consumer) {
         consumer.accept(new ClientboundAddEntityPacket(
             this.entityId,
             this.uuid,
@@ -28,8 +28,8 @@ public class EntityStandard extends EntityLiving {
             this.y,
             this.z,
             this.yaw,
-            this.pitch,
             this.headYaw,
+            this.pitch,
             this.velX,
             this.velY,
             this.velZ));

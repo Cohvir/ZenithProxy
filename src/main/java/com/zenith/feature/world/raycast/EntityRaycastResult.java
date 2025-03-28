@@ -5,7 +5,7 @@ import com.zenith.cache.data.entity.EntityPlayer;
 import com.zenith.cache.data.entity.EntityStandard;
 import com.zenith.mc.entity.EntityData;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import static com.zenith.Shared.ENTITY_DATA;
 

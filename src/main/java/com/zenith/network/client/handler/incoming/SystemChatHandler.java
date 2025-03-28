@@ -12,11 +12,11 @@ import com.zenith.feature.deathmessages.DeathMessagesParser;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
 import com.zenith.util.ComponentSerializer;
-import lombok.NonNull;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundSystemChatPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Objects;
 import java.util.Optional;

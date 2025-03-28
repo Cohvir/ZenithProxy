@@ -2,13 +2,9 @@ package com.zenith.command;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.CommandNode;
-import com.zenith.command.brigadier.CaseInsensitiveLiteralArgumentBuilder;
-import com.zenith.command.brigadier.CommandContext;
-import com.zenith.command.brigadier.CommandSource;
-import com.zenith.command.brigadier.DiscordCommandContext;
+import com.zenith.command.brigadier.*;
 import com.zenith.command.util.CommandErrorHandler;
 import com.zenith.discord.Embed;
 import com.zenith.network.server.ServerSession;
@@ -25,8 +21,8 @@ import java.util.function.Predicate;
 import static com.zenith.Shared.*;
 
 public abstract class Command {
-    public static <T> RequiredArgumentBuilder<CommandContext, T> argument(String name, ArgumentType<T> type) {
-        return RequiredArgumentBuilder.argument(name, type);
+    public static <T> ZRequiredArgumentBuilder<CommandContext, T> argument(String name, ArgumentType<T> type) {
+        return ZRequiredArgumentBuilder.argument(name, type);
     }
 
     // command return codes
@@ -137,6 +133,18 @@ public abstract class Command {
         return literal(literal).requires(requirement);
     }
 
+    public static EnumStringArgumentType enumStrings(String... strings) {
+        return new EnumStringArgumentType(strings);
+    }
+
+    public static EnumStringArgumentType enumStrings(Enum<?>[] enumValues) {
+        String[] names = new String[enumValues.length];
+        for (int i = 0; i < enumValues.length; i++) {
+            names[i] = enumValues[i].name().toLowerCase();
+        }
+        return enumStrings(names);
+    }
+
     public static String toggleStr(boolean state) {
         return state ? "on" : "off";
     }
@@ -156,17 +164,16 @@ public abstract class Command {
     public abstract LiteralArgumentBuilder<CommandContext> register();
 
     /**
-     * Override to populate the embed builder after every successful execution
-     *
-     * Also is populated onto command usage error messages.
-     * Don't include sensitive info in this embed population, there is no account owner check
+     * Override to populate the embed builder after every execution, including both success and error cases.
+     * Don't include sensitive info, there is no permission validation.
      */
     public void postPopulate(final Embed builder) {}
 
     public CaseInsensitiveLiteralArgumentBuilder<CommandContext> command(String literal) {
         return literal(literal)
-            .withErrorHandler(this::commandErrorHandler)
-            .withSuccesshandler(this::commandSuccessHandler);
+            .withErrorHandler(this::defaultErrorHandler)
+            .withSuccessHandler(this::defaultSuccessHandler)
+            .withExecutionErrorHandler(this::defaultExecutionErrorHandler);
     }
 
     /**
@@ -185,11 +192,11 @@ public abstract class Command {
         return builder;
     }
 
-    public void commandSuccessHandler(CommandContext context) {
+    public void defaultSuccessHandler(CommandContext context) {
         postPopulate(context.getEmbed());
     }
 
-    public void commandErrorHandler(Map<CommandNode<CommandContext>, CommandSyntaxException> exceptions, CommandContext context) {
+    public void defaultErrorHandler(Map<CommandNode<CommandContext>, CommandSyntaxException> exceptions, CommandContext context) {
         exceptions.values().stream()
             .findFirst()
             .ifPresent(exception -> context.getEmbed()
@@ -202,5 +209,11 @@ public abstract class Command {
         context.getEmbed()
                 .addField("Usage", commandUsage().serialize(context.getSource()), false)
                 .errorColor();
+    }
+
+    public void defaultExecutionErrorHandler(CommandContext commandContext) {
+        postPopulate(commandContext.getEmbed());
+        commandContext.getEmbed()
+            .errorColor();
     }
 }

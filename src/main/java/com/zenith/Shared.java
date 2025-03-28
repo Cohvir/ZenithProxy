@@ -29,7 +29,7 @@ import com.zenith.util.ConfigVerifier;
 import com.zenith.util.LaunchConfig;
 import com.zenith.util.Wait;
 import com.zenith.via.ZenithViaInitializer;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -211,12 +211,12 @@ public class Shared {
                 .setDaemon(true)
                 .setUncaughtExceptionHandler((thread, e) -> DEFAULT_LOG.error("Uncaught exception in scheduled executor thread {}", thread, e))
                 .build());
-            DISCORD = new DiscordBot();
             EVENT_BUS = new SimpleEventBus(Executors.newFixedThreadPool(2, new ThreadFactoryBuilder()
                 .setNameFormat("ZenithProxy Async EventBus - #%d")
                 .setDaemon(true)
                 .setUncaughtExceptionHandler((thread, e) -> DEFAULT_LOG.error("Uncaught exception in event bus thread {}", thread, e))
                 .build()), DEFAULT_LOG);
+            DISCORD = new DiscordBot();
             DIMENSION_DATA = new DimensionDataManager();
             CACHE = new DataCache();
             PLAYER_LISTS = new PlayerListsManager();

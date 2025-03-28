@@ -77,49 +77,49 @@ public class AutoDisconnectCommand extends Command {
                           CONFIG.client.extra.utility.actions.autoDisconnect.health = IntegerArgumentType.getInteger(c, "healthLevel");
                           c.getSource().getEmbed()
                               .title("AutoDisconnect Health Level Updated!");
-                          return 1;
+                          return OK;
                       })))
             .then(literal("cancelAutoReconnect")
                       .then(argument("toggle", toggle()).executes(c -> {
                             CONFIG.client.extra.utility.actions.autoDisconnect.cancelAutoReconnect = getToggle(c, "toggle");
                             c.getSource().getEmbed()
                                 .title("AutoDisconnect Cancel AutoReconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.cancelAutoReconnect));
-                            return 1;
+                            return OK;
                       })))
             .then(literal("autoClientDisconnect")
                       .then(argument("toggle", toggle()).executes(c -> {
                             CONFIG.client.extra.utility.actions.autoDisconnect.autoClientDisconnect = getToggle(c, "toggle");
                             c.getSource().getEmbed()
                                 .title("AutoDisconnect Auto Client Disconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.autoClientDisconnect));
-                            return 1;
+                            return OK;
                       })))
             .then(literal("thunder")
                       .then(argument("toggle", toggle()).executes(c -> {
                             CONFIG.client.extra.utility.actions.autoDisconnect.thunder = getToggle(c, "toggle");
                             c.getSource().getEmbed()
                                 .title("AutoDisconnect Thunder " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.thunder));
-                            return 1;
+                            return OK;
                       })))
             .then(literal("unknownPlayer")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("AutoDisconnect Unknown Player " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange));
-                          return 1;
+                          return OK;
                       })))
             .then(literal("whilePlayerConnected")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.client.extra.utility.actions.autoDisconnect.whilePlayerConnected = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("AutoDisconnect While Player Connected " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.whilePlayerConnected));
-                          return 1;
+                          return OK;
                       })))
             .then(literal("totemPop")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.client.extra.utility.actions.autoDisconnect.onTotemPop = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("AutoDisconnect Totem Pop " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.onTotemPop));
-                          return 1;
+                          return OK;
                       })));
     }
 

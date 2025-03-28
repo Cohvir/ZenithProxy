@@ -5,11 +5,10 @@ import com.google.common.cache.CacheBuilder;
 import com.zenith.cache.CacheResetType;
 import com.zenith.cache.CachedData;
 import lombok.Data;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.network.tcp.TcpSession;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.spawn.ClientboundAddEntityPacket;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.time.Duration;
 import java.util.*;
@@ -72,7 +71,7 @@ public class EntityCache implements CachedData {
     }
 
     public Entity remove(int id)  {
-        @Nullable var entity = this.entities.remove(id);
+        var entity = this.entities.remove(id);
         if (entity != null) entity.setRemoved(true);
         if (entity instanceof EntityPlayer player)
             this.recentlyRemovedPlayers.put(player.getUuid(), player);

@@ -1,6 +1,6 @@
 package com.zenith.event.module;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 

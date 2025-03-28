@@ -25,7 +25,7 @@ public class Spook extends Module {
     // list (used as a stack) of most recently seen player entity ID's
     private final IntArrayList playerTargetStack = new IntArrayList();
     private int targetEntity = -1;
-    private static final int MOVEMENT_PRIORITY = 10; // relatively low
+    public static final int MOVEMENT_PRIORITY = 10; // relatively low
     private static final int SEARCH_DELAY_TICKS = 50;
 
     @Override
@@ -125,6 +125,7 @@ public class Spook extends Module {
             INPUTS.submit(InputRequest.builder()
                               .yaw(rotation.getX())
                               .pitch(rotation.getY())
+                              .priority(MOVEMENT_PRIORITY)
                               .build());
         }
     }

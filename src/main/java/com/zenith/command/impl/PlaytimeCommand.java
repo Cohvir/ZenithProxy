@@ -44,7 +44,7 @@ public class PlaytimeCommand extends Command {
                                      () -> c.getSource().getEmbed()
                                          .title(playerName + " not found")
                                          .errorColor());
-                return 1;
+                return OK;
             }));
     }
 }

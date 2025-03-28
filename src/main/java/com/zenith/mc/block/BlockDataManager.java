@@ -13,7 +13,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import lombok.SneakyThrows;
 import org.geysermc.mcprotocollib.protocol.data.game.chunk.DataPalette;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 

@@ -8,8 +8,8 @@ import com.zenith.command.brigadier.CommandCategory;
 import com.zenith.command.brigadier.CommandContext;
 import com.zenith.feature.api.vcapi.VcApi;
 import net.dv8tion.jda.api.utils.TimeFormat;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
 
 import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
@@ -43,8 +43,7 @@ public class SeenCommand extends Command {
                 var seenResponse = VcApi.INSTANCE.getSeen(playerName);
                 if (seenResponse.isEmpty()) {
                     c.getSource().getEmbed()
-                        .title(escape(playerName) + " not found")
-                        .errorColor();
+                        .title(escape(playerName) + " not found");
                     return ERROR;
                 }
                 c.getSource().getEmbed()
@@ -57,8 +56,7 @@ public class SeenCommand extends Command {
                     .addField("First Seen", getSeenString(response.firstSeen()), false)
                     .addField("Last Seen", getSeenString(response.lastSeen()), false)
                     .thumbnail(Proxy.getInstance().getAvatarURL(playerName).toString()));
-
-                return 1;
+                return OK;
             }));
     }
 

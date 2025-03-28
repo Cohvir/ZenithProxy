@@ -2,7 +2,7 @@ package com.zenith.feature.world;
 
 import com.zenith.event.module.ClientBotTick;
 import com.zenith.module.impl.PlayerSimulation;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import static com.github.rfresh2.EventConsumer.of;
 import static com.zenith.Shared.EVENT_BUS;
@@ -13,8 +13,8 @@ public class InputManager {
         .priority(Integer.MIN_VALUE)
         .build();
     private static final InputRequestFuture DEFAULT_REQUEST_FUTURE = new InputRequestFuture();
-    private @NotNull InputRequest currentMovementInputRequest = DEFAULT_MOVEMENT_INPUT_REQUEST;
-    private @NotNull InputRequestFuture currentMovementInputRequestFuture = DEFAULT_REQUEST_FUTURE;
+    private @NonNull InputRequest currentMovementInputRequest = DEFAULT_MOVEMENT_INPUT_REQUEST;
+    private @NonNull InputRequestFuture currentMovementInputRequestFuture = DEFAULT_REQUEST_FUTURE;
 
     public InputManager() {
         EVENT_BUS.subscribe(

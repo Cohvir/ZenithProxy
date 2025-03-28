@@ -57,22 +57,22 @@ public class ClientConnectionCommand extends Command {
                           CONFIG.client.autoConnect = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("Auto Connect " + toggleStrCaps(CONFIG.client.autoConnect));
-                          return 1;
+                          return OK;
                       })))
             .then(literal("proxy")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.client.connectionProxy.enabled = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("Client Connection Proxy " + toggleStrCaps(CONFIG.client.connectionProxy.enabled));
-                          return 1;
+                          return OK;
                       }))
                       .then(literal("type")
-                                .then(argument("type", wordWithChars()).executes(c -> {
+                                .then(argument("type", enumStrings(ProxyInfo.Type.values())).executes(c -> {
                                     try {
                                         CONFIG.client.connectionProxy.type = ProxyInfo.Type.valueOf(getString(c, "type").toUpperCase());
                                         c.getSource().getEmbed()
                                             .title("Proxy Type Set");
-                                        return 1;
+                                        return OK;
                                     } catch (final Exception e) {
                                         c.getSource().getEmbed()
                                             .title("Invalid Proxy Type")
@@ -85,21 +85,21 @@ public class ClientConnectionCommand extends Command {
                                     CONFIG.client.connectionProxy.host = getString(c, "host");
                                     c.getSource().getEmbed()
                                         .title("Proxy Host Set");
-                                    return 1;
+                                    return OK;
                                 })))
                       .then(literal("port")
                                 .then(argument("port", integer(1, 65535)).executes(c -> {
                                     CONFIG.client.connectionProxy.port = getInteger(c, "port");
                                     c.getSource().getEmbed()
                                         .title("Proxy Port Set");
-                                    return 1;
+                                    return OK;
                                 })))
                       .then(literal("auth").then(literal("clear").executes(c -> {
                           CONFIG.client.connectionProxy.user = "";
                           CONFIG.client.connectionProxy.password = "";
                           c.getSource().getEmbed()
                               .title("Proxy User and Password Cleared");
-                          return 1;
+                          return OK;
                       })))
                       .then(literal("user")
                                 .then(argument("user", wordWithChars()).executes(c -> {
@@ -107,7 +107,7 @@ public class ClientConnectionCommand extends Command {
                                     CONFIG.client.connectionProxy.user = getString(c, "user");
                                     c.getSource().getEmbed()
                                         .title("Proxy Username Set");
-                                    return 1;
+                                    return OK;
                                 })))
                       .then(literal("password")
                                 .then(argument("password", wordWithChars()).executes(c -> {
@@ -115,7 +115,7 @@ public class ClientConnectionCommand extends Command {
                                     CONFIG.client.connectionProxy.password = getString(c, "password");
                                     c.getSource().getEmbed()
                                         .title("Proxy Password Set");
-                                    return 1;
+                                    return OK;
                                 }))))
             .then(literal("bindAddress")
                       .then(argument("address", wordWithChars()).executes(c -> {
@@ -129,7 +129,7 @@ public class ClientConnectionCommand extends Command {
                           CONFIG.client.bindAddress = address;
                           c.getSource().getEmbed()
                               .title("Bind Address Set");
-                          return 1;
+                          return OK;
                       })))
             .then(literal("timeout")
                       .then(argument("toggle", toggle()).executes(c -> {
@@ -137,14 +137,14 @@ public class ClientConnectionCommand extends Command {
                             syncTimeout();
                             c.getSource().getEmbed()
                                 .title("Client Connection Timeout " + toggleStrCaps(CONFIG.client.timeout.enable));
-                            return 1;
+                            return OK;
                       }))
                       .then(argument("seconds", integer(10, 120)).executes(c -> {
                           CONFIG.client.timeout.seconds = getInteger(c, "seconds");
                           syncTimeout();
                           c.getSource().getEmbed()
                               .title("Timeout Set");
-                          return 1;
+                          return OK;
                       })))
             .then(literal("ping")
                       .then(literal("mode")
@@ -152,20 +152,20 @@ public class ClientConnectionCommand extends Command {
                                     CONFIG.client.ping.mode = Config.Client.Ping.Mode.TABLIST;
                                     c.getSource().getEmbed()
                                         .title("Ping Mode Set");
-                                    return 1;
+                                    return OK;
                                 }))
                                 .then(literal("packet").executes(c -> {
                                     CONFIG.client.ping.mode = Config.Client.Ping.Mode.PACKET;
                                     c.getSource().getEmbed()
                                         .title("Ping Mode Set")
                                         .addField("Info", "Will be applied on next reconnect", false);
-                                    return 1;
+                                    return OK;
                                 })))
                       .then(literal("packetInterval").then(argument("seconds", integer(5, 300)).executes(c -> {
                             CONFIG.client.ping.packetPingIntervalSeconds = getInteger(c, "seconds");
                             c.getSource().getEmbed()
                                 .title("Ping Packet Interval Set");
-                            return 1;
+                            return OK;
                       }))));
     }
 

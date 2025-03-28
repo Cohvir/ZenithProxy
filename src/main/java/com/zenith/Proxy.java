@@ -25,7 +25,6 @@ import com.zenith.via.ZenithClientChannelInitializer;
 import com.zenith.via.ZenithServerChannelInitializer;
 import io.netty.util.ResourceLeakDetector;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import net.raphimc.minecraftauth.responsehandler.exception.MinecraftRequestException;
@@ -39,8 +38,8 @@ import org.geysermc.mcprotocollib.protocol.MinecraftProtocol;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundSystemChatPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundTabListPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.serverbound.player.ServerboundSetCarriedItemPacket;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -87,7 +86,7 @@ public class Proxy {
     private OptionalLong prevOnlineSeconds = OptionalLong.empty();
     private Optional<Boolean> isPrio = Optional.empty();
     @Getter private final AtomicBoolean loggingIn = new AtomicBoolean(false);
-    @Setter @NotNull private AutoUpdater autoUpdater = NoOpAutoUpdater.INSTANCE;
+    @Setter @NonNull private AutoUpdater autoUpdater = NoOpAutoUpdater.INSTANCE;
     private LanBroadcaster lanBroadcaster;
     private TcpConnectionManager tcpManager;
 
@@ -121,7 +120,7 @@ public class Proxy {
 
     public void start() {
         DEFAULT_LOG.info("Starting ZenithProxy-{}", LAUNCH_CONFIG.version);
-        @Nullable String exeReleaseVersion = getExecutableReleaseVersion();
+        var exeReleaseVersion = getExecutableReleaseVersion();
         if (exeReleaseVersion == null) {
             DEFAULT_LOG.warn("Detected unofficial ZenithProxy development build!");
         } else if (!LAUNCH_CONFIG.version.split("\\+")[0].equals(exeReleaseVersion.split("\\+")[0])) {
@@ -141,15 +140,13 @@ public class Proxy {
                 DEFAULT_LOG.info("Started Databases");
             }
             if (CONFIG.discord.enable) {
-                boolean err = false;
                 try {
                     DISCORD.start();
+                    DISCORD_LOG.info("Started Discord Bot");
                 } catch (final Throwable e) {
-                    err = true;
                     DISCORD_LOG.error("Failed starting discord bot: {}", e.getMessage());
                     DISCORD_LOG.debug("Failed starting discord bot", e);
                 }
-                if (!err) DISCORD_LOG.info("Started Discord Bot");
             }
             NotificationEventListener.INSTANCE.subscribeEvents();
             Queue.start();
@@ -195,7 +192,7 @@ public class Proxy {
                             """
                             You are currently using a ZenithProxy prerelease
                             
-                            Prereleases include experiments that may contain bugs and are not always updated with fixes             
+                            Prereleases include experiments that may contain bugs and are not always updated with fixes
                             
                             Switch to a stable release with the `channel` command
                             """));

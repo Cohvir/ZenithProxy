@@ -16,7 +16,7 @@ import com.zenith.util.RequestFuture;
 import org.geysermc.mcprotocollib.protocol.data.game.inventory.ClickItemAction;
 import org.geysermc.mcprotocollib.protocol.data.game.inventory.ContainerActionType;
 import org.geysermc.mcprotocollib.protocol.data.game.inventory.DropItemAction;
-import org.geysermc.mcprotocollib.protocol.data.game.item.component.DataComponentType;
+import org.geysermc.mcprotocollib.protocol.data.game.item.component.DataComponentTypes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -182,7 +182,7 @@ public class InventoryCommand extends Command {
             sb.append("  ").append(i).append(" -> ");
             sb.append(itemData.name());
             if (itemStack.getDataComponents() != null) {
-                var nameComponent = itemStack.getDataComponents().get(DataComponentType.CUSTOM_NAME);
+                var nameComponent = itemStack.getDataComponents().get(DataComponentTypes.CUSTOM_NAME);
                 if (nameComponent != null) {
                     sb.append(" \"").append(ComponentSerializer.serializePlain(nameComponent)).append("\"");
                 }

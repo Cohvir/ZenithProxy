@@ -68,7 +68,7 @@ public class ClickCommand extends Command {
                 c.getSource().getEmbed()
                     .title("Left Clicked")
                     .primaryColor();
-                return 1;
+                return OK;
             })
                       .then(literal("hold").executes(c -> {
                           CONFIG.client.extra.click.holdLeftClick = true;
@@ -95,7 +95,7 @@ public class ClickCommand extends Command {
                 c.getSource().getEmbed()
                     .title("Right Clicked")
                     .primaryColor();
-                return 1;
+                return OK;
             })
                       .then(literal("hold")
                                 .executes(c -> {

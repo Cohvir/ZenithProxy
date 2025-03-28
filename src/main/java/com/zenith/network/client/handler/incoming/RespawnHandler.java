@@ -6,8 +6,8 @@ import com.zenith.feature.world.World;
 import com.zenith.module.impl.PlayerSimulation;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundRespawnPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

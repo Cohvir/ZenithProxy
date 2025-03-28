@@ -40,14 +40,14 @@ public class IgnoreCommand extends Command {
                             () -> c.getSource().getEmbed()
                                     .title("Failed to add " + escape(player) + " to ignore list. Unable to lookup profile.")
                                     .errorColor());
-                    return 1;
+                    return OK;
                 })))
                 .then(literal("del").then(argument("player", string()).executes(c -> {
                     String player = c.getArgument("player", String.class);
                     PLAYER_LISTS.getIgnoreList().remove(player);
                     c.getSource().getEmbed()
                             .title(escape(player) + " removed from ignore list!");
-                    return 1;
+                    return OK;
                 })))
                 .then(literal("list").executes(c -> {
                     c.getSource().getEmbed()
@@ -57,7 +57,7 @@ public class IgnoreCommand extends Command {
                     PLAYER_LISTS.getIgnoreList().clear();
                     c.getSource().getEmbed()
                             .title("Ignore list cleared!");
-                    return 1;
+                    return OK;
                 }));
     }
 

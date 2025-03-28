@@ -62,6 +62,11 @@ public class PlayerInventoryManager {
         return currentRequestFuture;
     }
 
+    // to request that no action is taken
+    public synchronized RequestFuture invActionReq(final Object owner, int priority) {
+        return invActionReq(owner, Collections.emptyList(), priority);
+    }
+
     public synchronized RequestFuture invActionReq(final Object owner, final ContainerClickAction action, int priority) {
         return invActionReq(owner, List.of(action), priority);
     }

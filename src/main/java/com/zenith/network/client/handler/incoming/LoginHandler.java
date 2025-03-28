@@ -5,13 +5,13 @@ import com.zenith.cache.CacheResetType;
 import com.zenith.event.proxy.PlayerOnlineEvent;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.PacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.player.HandPreference;
 import org.geysermc.mcprotocollib.protocol.data.game.setting.ChatVisibility;
 import org.geysermc.mcprotocollib.protocol.data.game.setting.SkinPart;
 import org.geysermc.mcprotocollib.protocol.packet.common.serverbound.ServerboundClientInformationPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundLoginPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.serverbound.ServerboundChatSessionUpdatePacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 

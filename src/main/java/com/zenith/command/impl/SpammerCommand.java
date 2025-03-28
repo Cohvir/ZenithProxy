@@ -94,13 +94,13 @@ public class SpammerCommand extends Command {
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
                     .title("Status");
-                return 1;
+                return OK;
             }))
             .then(literal("clear").executes(c -> {
                 CONFIG.client.extra.spammer.messages.clear();
                 c.getSource().getEmbed()
                     .title("Messages Cleared!");
-                return 1;
+                return OK;
             }))
             .then(literal("add")
                       .then(argument("message", greedyString()).executes(c -> {
@@ -109,7 +109,7 @@ public class SpammerCommand extends Command {
                           c.getSource().getEmbed()
                                                  .primaryColor()
                                                  .title("Message Added!");
-                          return 1;
+                          return OK;
                       })))
             .then(literal("addAt")
                       .then(argument("index", integer(0))
@@ -120,7 +120,7 @@ public class SpammerCommand extends Command {
                                         CONFIG.client.extra.spammer.messages.add(index, message);
                                         c.getSource().getEmbed()
                                             .title("Message Added!");
-                                        return 1;
+                                        return OK;
                                     } catch (final Exception e) {
                                         c.getSource().getEmbed()
                                             .title("Invalid Index!");
@@ -134,7 +134,7 @@ public class SpammerCommand extends Command {
                               CONFIG.client.extra.spammer.messages.remove(index);
                               addListDescription(c.getSource().getEmbed()
                                                      .title("Message Removed!"));
-                              return 1;
+                              return OK;
                           } catch (final Exception e) {
                                 c.getSource().getEmbed()
                                     .title("Invalid Index!");

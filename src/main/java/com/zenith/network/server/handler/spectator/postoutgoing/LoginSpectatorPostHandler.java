@@ -6,7 +6,6 @@ import com.zenith.feature.spectator.SpectatorSync;
 import com.zenith.network.registry.PostOutgoingPacketHandler;
 import com.zenith.network.server.ServerSession;
 import com.zenith.util.ComponentSerializer;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.data.game.PlayerListEntry;
 import org.geysermc.mcprotocollib.protocol.data.game.PlayerListEntryAction;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundLoginPacket;
@@ -14,6 +13,7 @@ import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.Clientbound
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundSetCameraPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundSystemChatPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.ClientboundRemoveEntitiesPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.EnumSet;
 
@@ -23,7 +23,7 @@ import static org.geysermc.mcprotocollib.protocol.data.game.entity.player.GameMo
 public class LoginSpectatorPostHandler implements PostOutgoingPacketHandler<ClientboundLoginPacket, ServerSession> {
     @Override
     public void accept(@NonNull ClientboundLoginPacket packet, @NonNull ServerSession session) {
-        if (CONFIG.server.extra.whitelist.enable && !session.isWhitelistChecked()) {
+        if (!session.isWhitelistChecked()) {
             // we shouldn't be able to get to this point without whitelist checking, but just in case
             session.disconnect("Login without whitelist check?");
             return;

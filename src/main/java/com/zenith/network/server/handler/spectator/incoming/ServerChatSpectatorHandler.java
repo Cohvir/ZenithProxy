@@ -25,7 +25,7 @@ public class ServerChatSpectatorHandler implements PacketHandler<ServerboundChat
     public ServerboundChatPacket apply(ServerboundChatPacket packet, ServerSession session) {
         if (CONFIG.inGameCommands.enable) {
             EXECUTOR.execute(() -> {
-                if (IN_GAME_COMMAND.getCommandPattern().matcher(packet.getMessage()).find()) {
+                if (IN_GAME_COMMAND.isCommandPrefixed(packet.getMessage())) {
                     TERMINAL_LOG.info("{} executed spectator command: {}", session.getProfileCache().getProfile().getName(), packet.getMessage());
                     if (CONFIG.server.spectator.fullCommandsEnabled && (!CONFIG.server.spectator.fullCommandsRequireRegularWhitelist || PLAYER_LISTS.getWhitelist().contains(session.getProfileCache().getProfile()))) {
                         final String fullCommandAndArgs = packet.getMessage().substring(CONFIG.inGameCommands.prefix.length()).trim(); // cut off the prefix

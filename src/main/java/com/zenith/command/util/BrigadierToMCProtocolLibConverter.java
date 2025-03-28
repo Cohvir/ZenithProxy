@@ -6,10 +6,7 @@ import com.mojang.brigadier.arguments.*;
 import com.mojang.brigadier.tree.ArgumentCommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
-import com.zenith.command.brigadier.CaseInsensitiveLiteralCommandNode;
-import com.zenith.command.brigadier.CommandContext;
-import com.zenith.command.brigadier.CustomStringArgumentType;
-import com.zenith.command.brigadier.ToggleArgumentType;
+import com.zenith.command.brigadier.*;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.experimental.UtilityClass;
@@ -101,6 +98,10 @@ public class BrigadierToMCProtocolLibConverter {
                         case StringArgumentType.StringType.GREEDY_PHRASE -> StringProperties.GREEDY_PHRASE;
                         case StringArgumentType.StringType.QUOTABLE_PHRASE -> StringProperties.QUOTABLE_PHRASE;
                     };
+                }
+                case EnumStringArgumentType t -> {
+                    parser = CommandParser.STRING;
+                    properties = StringProperties.SINGLE_WORD;
                 }
                 case ToggleArgumentType t -> {
                     parser = CommandParser.BOOL;

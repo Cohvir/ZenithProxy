@@ -14,7 +14,6 @@ import java.util.Arrays;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
-import static com.mojang.brigadier.arguments.StringArgumentType.string;
 import static com.zenith.Shared.CONFIG;
 import static com.zenith.Shared.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
@@ -61,11 +60,11 @@ public class ReplayCommand extends Command {
                         .title("Error")
                         .errorColor()
                         .description("ReplayMod is already recording");
-                    return 1;
+                    return OK;
                 }
                 module.enable();
                 c.getSource().setNoOutput(true);
-                return 1;
+                return OK;
             }))
             .then(literal("stop").executes(c -> {
                 var module = MODULE.get(ReplayMod.class);
@@ -74,32 +73,32 @@ public class ReplayCommand extends Command {
                         .title("Error")
                         .errorColor()
                         .description("ReplayMod is not recording");
-                    return 1;
+                    return OK;
                 }
                 module.disable();
                 c.getSource().setNoOutput(true);
-                return 1;
+                return OK;
             }))
             .then(literal("discordUpload").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.replayMod.sendRecordingsToDiscord = getToggle(c, "toggle");
                 c.getSource().getEmbed()
                     .title("Discord Upload " + toggleStrCaps(CONFIG.client.extra.replayMod.sendRecordingsToDiscord));
-                return 1;
+                return OK;
             })))
             .then(literal("fileIoUpload").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.replayMod.fileIOUploadIfTooLarge = getToggle(c, "toggle");
                 c.getSource().getEmbed()
                     .title("file.io Upload " + toggleStrCaps(CONFIG.client.extra.replayMod.fileIOUploadIfTooLarge));
-                return 1;
+                return OK;
             })))
             .then(literal("maxRecordingTime").then(argument("minutes", integer(0, 60 * 6)).executes(c -> {
                 CONFIG.client.extra.replayMod.maxRecordingTimeMins = getInteger(c, "minutes");
                 c.getSource().getEmbed()
                     .title("Max Recording Time Set");
-                return 1;
+                return OK;
             })))
             .then(literal("autoRecord")
-                      .then(literal("mode").then(argument("mode", string()).executes(c -> {
+                      .then(literal("mode").then(argument("mode", enumStrings(AutoRecordMode.values())).executes(c -> {
                           var modeStr = getString(c, "mode").toLowerCase();
                           var foundMode = Arrays.stream(AutoRecordMode.values())
                               .filter(mode -> mode.getName().toLowerCase().equals(modeStr))
@@ -108,20 +107,20 @@ public class ReplayCommand extends Command {
                               c.getSource().getEmbed()
                                   .title("Invalid Mode")
                                   .description("Available Modes: " + Arrays.toString(AutoRecordMode.values()));
-                              return 1;
+                              return OK;
                           } else {
                               MODULE.get(ReplayMod.class).disable();
                               CONFIG.client.extra.replayMod.autoRecordMode = foundMode.get();
                               c.getSource().getEmbed()
                                   .title("Auto Record Mode Set");
                           }
-                          return 1;
+                          return OK;
                       })))
                       .then(literal("health").then(argument("health", integer(0, 20)).executes(c -> {
                           CONFIG.client.extra.replayMod.replayRecordingHealthThreshold = getInteger(c, "health");
                           c.getSource().getEmbed()
                               .title("Auto Record Health Set");
-                          return 1;
+                          return OK;
                       }))));
     }
 

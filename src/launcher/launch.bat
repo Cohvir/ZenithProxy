@@ -23,7 +23,7 @@ if errorlevel 1 (
   exit /b 1
 )
 echo Verifying requirements...
-%PYTHON_CMD% -m pip install -r requirements.txt -qq --disable-pip-version-check --no-input
+%PYTHON_CMD% -m pip install --upgrade --requirement requirements.txt -qq --disable-pip-version-check --no-input
 echo Starting Launcher...
 %PYTHON_CMD% launcher-py.zip %*
 

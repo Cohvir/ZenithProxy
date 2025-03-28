@@ -1,6 +1,6 @@
 package com.zenith.feature.api.mcstatus.model;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public record MCStatusResponse(
     boolean online,

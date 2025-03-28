@@ -42,21 +42,21 @@ public class AntiKickCommand extends Command {
                 MODULE.get(AntiKick.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AntiKick " + toggleStrCaps(CONFIG.client.extra.antiKick.enabled));
-                return 1;
+                return OK;
             }))
             .then(literal("playerInactivityKickMins")
                       .then(argument("minutes", integer(1, 30)).executes(c -> {
                           CONFIG.client.extra.antiKick.playerInactivityKickMins = getInteger(c, "minutes");
                           c.getSource().getEmbed()
                               .title("Inactivity Time Set!");
-                          return 1;
+                          return OK;
                       })))
             .then(literal("minWalkDistance")
                       .then(argument("blocks", integer(1, 100)).executes(c -> {
                           CONFIG.client.extra.antiKick.minWalkDistance = getInteger(c, "blocks");
                           c.getSource().getEmbed()
                               .title("Min Walk Distance Set!");
-                          return 1;
+                          return OK;
                       })));
     }
 

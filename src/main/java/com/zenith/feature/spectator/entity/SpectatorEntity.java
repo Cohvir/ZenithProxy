@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.geysermc.mcprotocollib.auth.GameProfile;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.EntityMetadata;
-import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.MetadataType;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.MetadataTypes;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.type.BooleanEntityMetadata;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.type.ObjectEntityMetadata;
 import org.geysermc.mcprotocollib.protocol.data.game.level.sound.BuiltinSound;
@@ -35,8 +35,8 @@ public abstract class SpectatorEntity {
     /** Internal API **/
     protected ArrayList<EntityMetadata<?, ?>> buildMetadata(final GameProfile spectatorRealProfile, final int spectatorEntityId, boolean self) {
         var metadata = getBaseEntityMetadata(spectatorRealProfile, spectatorEntityId);
-        metadata.add(new ObjectEntityMetadata<>(2, MetadataType.OPTIONAL_CHAT, Optional.of(Component.text(spectatorRealProfile.getName()))));
-        metadata.add(new BooleanEntityMetadata(3, MetadataType.BOOLEAN, !self)); // hides nametag on self entities
+        metadata.add(new ObjectEntityMetadata<>(2, MetadataTypes.OPTIONAL_CHAT, Optional.of(Component.text(spectatorRealProfile.getName()))));
+        metadata.add(new BooleanEntityMetadata(3, MetadataTypes.BOOLEAN, !self)); // hides nametag on self entities
         return metadata;
     }
 

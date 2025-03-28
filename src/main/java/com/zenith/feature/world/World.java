@@ -12,9 +12,9 @@ import it.unimi.dsi.fastutil.longs.LongList;
 import lombok.experimental.UtilityClass;
 import org.geysermc.mcprotocollib.protocol.data.game.chunk.ChunkSection;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +39,7 @@ public class World {
     }
 
     // falls back to overworld if current dimension is null
-    public @NotNull DimensionData getCurrentDimension() {
+    public @NonNull DimensionData getCurrentDimension() {
         DimensionData currentDimension = CACHE.getChunkCache().getCurrentDimension();
         if (currentDimension == null) return DimensionRegistry.OVERWORLD;
         return currentDimension;

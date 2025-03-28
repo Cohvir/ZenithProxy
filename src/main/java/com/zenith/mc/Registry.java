@@ -4,7 +4,7 @@ import com.zenith.util.Maps;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 @Getter
 public class Registry<T extends RegistryData> {
@@ -14,7 +14,7 @@ public class Registry<T extends RegistryData> {
         idMap = new Int2ObjectOpenHashMap<>(size, Maps.FAST_LOAD_FACTOR);
     }
 
-    public T register(@NotNull T value) {
+    public T register(@NonNull T value) {
         idMap.put(value.id(), value);
         return value;
     }
@@ -23,7 +23,7 @@ public class Registry<T extends RegistryData> {
         return idMap.get(id);
     }
 
-    public T get(@NotNull String name) {
+    public T get(@NonNull String name) {
         for (Int2ObjectMap.Entry<T> entry : idMap.int2ObjectEntrySet()) {
             if (name.equals(entry.getValue().name())) {
                 return entry.getValue();

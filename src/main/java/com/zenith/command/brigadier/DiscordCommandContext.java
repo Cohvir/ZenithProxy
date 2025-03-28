@@ -17,6 +17,6 @@ public class DiscordCommandContext extends CommandContext {
     }
 
     public static DiscordCommandContext create(final String input, final MessageReceivedEvent messageReceivedEvent) {
-        return new DiscordCommandContext(input, new Embed(), new ArrayList<>(), messageReceivedEvent);
+        return new DiscordCommandContext(input.trim(), new Embed(), new ArrayList<>(), messageReceivedEvent);
     }
 }

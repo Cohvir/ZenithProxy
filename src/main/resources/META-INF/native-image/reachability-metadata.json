@@ -749,6 +749,31 @@
       ]
     },
     {
+      "type": "com.google.common.util.concurrent.AbstractFutureState",
+      "fields": [
+        {
+          "name": "listeners"
+        },
+        {
+          "name": "value"
+        },
+        {
+          "name": "waiters"
+        }
+      ]
+    },
+    {
+      "type": "com.google.common.util.concurrent.AbstractFutureState$Waiter",
+      "fields": [
+        {
+          "name": "next"
+        },
+        {
+          "name": "thread"
+        }
+      ]
+    },
+    {
       "type": "com.google.gson.JsonParser",
       "methods": [
         {
@@ -2280,6 +2305,16 @@
       ]
     },
     {
+      "type": "com.zenith.util.Config$Client$Extra$AutoOmen",
+      "allDeclaredFields": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "com.zenith.util.Config$Client$Extra$AutoReconnect",
       "allDeclaredFields": true,
       "methods": [
@@ -2785,6 +2820,26 @@
     },
     {
       "type": "com.zenith.util.Config$Server$Extra$Whitelist",
+      "allDeclaredFields": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.zenith.util.Config$Server$LoginRateLimiter",
+      "allDeclaredFields": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.zenith.util.Config$Server$PacketRateLimiter",
       "allDeclaredFields": true,
       "methods": [
         {
@@ -3532,6 +3587,9 @@
           "name": "TYPE"
         }
       ]
+    },
+    {
+      "type": "java.lang.invoke.VarHandle"
     },
     {
       "type": "java.lang.management.BufferPoolMXBean"

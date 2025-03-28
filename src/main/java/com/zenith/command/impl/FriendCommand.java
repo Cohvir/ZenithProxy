@@ -42,25 +42,25 @@ public class FriendCommand extends Command {
                                              .title("Friend added"),
                                      () -> c.getSource().getEmbed()
                                          .title("Failed to add user: " + escape(player) + " to friends. Unable to lookup profile."));
-                return 1;
+                return OK;
             })))
             .then(literal("del").then(argument("player", string()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getFriendsList().remove(player);
                 c.getSource().getEmbed()
                     .title("Friend deleted");
-                return 1;
+                return OK;
             })))
             .then(literal("list").executes(c -> {
                 c.getSource().getEmbed()
                     .title("Friend list");
-                return 1;
+                return OK;
             }))
             .then(literal("clear").executes(c -> {
                 PLAYER_LISTS.getFriendsList().clear();
                 c.getSource().getEmbed()
                     .title("Friend list cleared!");
-                return 1;
+                return OK;
             }));
     }
 

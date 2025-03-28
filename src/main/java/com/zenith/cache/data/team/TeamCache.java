@@ -3,10 +3,10 @@ package com.zenith.cache.data.team;
 import com.zenith.cache.CacheResetType;
 import com.zenith.cache.CachedData;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.network.tcp.TcpSession;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.scoreboard.ClientboundSetPlayerTeamPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

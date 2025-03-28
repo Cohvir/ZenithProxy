@@ -1,7 +1,7 @@
 package com.zenith.mc.block;
 
 import com.zenith.feature.world.raycast.RayIntersection;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * CollisionBox localized to coordinates

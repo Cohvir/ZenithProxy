@@ -54,8 +54,7 @@ public class AntiAFK extends Module {
     }
 
     public void handleClientTickEvent(final ClientBotTick event) {
-        if (CACHE.getPlayerCache().getThePlayer().isAlive()
-                && !MODULE.get(KillAura.class).isActive()) {
+        if (CACHE.getPlayerCache().getThePlayer().isAlive()) {
             if (CONFIG.client.extra.antiafk.actions.swingHand) {
                 swingTick();
             }

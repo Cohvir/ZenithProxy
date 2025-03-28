@@ -105,40 +105,40 @@ public class AntiAFKCommand extends Command {
                           CONFIG.client.extra.antiafk.actions.safeWalk = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("SafeWalk " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.safeWalk));
-                          return 1;
+                          return OK;
                       })))
             .then(literal("walkDistance")
                                 .then(argument("walkdist", integer(1)).executes(c -> {
                                     CONFIG.client.extra.antiafk.actions.walkDistance = IntegerArgumentType.getInteger(c, "walkdist");
                                     c.getSource().getEmbed()
                                         .title("Walk Distance Set!");
-                                    return 1;
+                                    return OK;
                                 })))
             .then(literal("jump")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.client.extra.antiafk.actions.jump = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("Jump " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jump));
-                          return 1;
+                          return OK;
                       }))
                       .then(literal("onlyInWater").then(argument("toggle", toggle()).executes(c -> {
                             CONFIG.client.extra.antiafk.actions.jumpOnlyInWater = getToggle(c, "toggle");
                             c.getSource().getEmbed()
                                 .title("Jump Only In Water " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.jumpOnlyInWater));
-                            return 1;
+                            return OK;
                       })))
                       .then(literal("delay").then(argument("delay", integer(1, 50000)).executes(c -> {
                           CONFIG.client.extra.antiafk.actions.jumpDelayTicks = IntegerArgumentType.getInteger(c, "delay");
                           c.getSource().getEmbed()
                               .title("Jump Delay Set!");
-                          return 1;
+                          return OK;
                       }))))
             .then(literal("sneak")
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.client.extra.antiafk.actions.sneak = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("Sneak " + toggleStrCaps(CONFIG.client.extra.antiafk.actions.sneak));
-                          return 1;
+                          return OK;
                       })));
     }
 

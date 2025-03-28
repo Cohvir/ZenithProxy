@@ -37,12 +37,11 @@ public class ActionLimiter extends Module {
 
     @Override
     public PacketHandlerCodec registerServerPacketHandlerCodec() {
-        return PacketHandlerCodec.builder()
+        return PacketHandlerCodec.serverBuilder()
             .setId("action-limiter")
             .setPriority(1000)
-            .setActivePredicate((session) -> shouldLimit((ServerSession) session))
-            .state(ProtocolState.GAME, PacketHandlerStateCodec.<ServerSession>builder()
-                .allowUnhandledInbound(true)
+            .setActivePredicate(this::shouldLimit)
+            .state(ProtocolState.GAME, PacketHandlerStateCodec.serverBuilder()
                 .registerInbound(ServerboundChatCommandPacket.class, new ALChatCommandHandler())
                 .registerInbound(ServerboundChatCommandSignedPacket.class, new ALSignedChatCommandHandler())
                 .registerInbound(ServerboundChatPacket.class, new ALChatHandler())

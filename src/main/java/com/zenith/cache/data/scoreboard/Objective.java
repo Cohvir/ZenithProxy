@@ -1,7 +1,6 @@
 package com.zenith.cache.data.scoreboard;
 
 import lombok.Data;
-import lombok.NonNull;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import org.geysermc.mcprotocollib.network.packet.Packet;
@@ -9,6 +8,7 @@ import org.geysermc.mcprotocollib.protocol.data.game.chat.numbers.NumberFormat;
 import org.geysermc.mcprotocollib.protocol.data.game.scoreboard.ObjectiveAction;
 import org.geysermc.mcprotocollib.protocol.data.game.scoreboard.ScoreType;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.scoreboard.ClientboundSetObjectivePacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

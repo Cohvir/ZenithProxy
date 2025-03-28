@@ -5,6 +5,7 @@ on:
 
 env:
   python_version: '3.12.8'
+  pyinstaller_version: "6.11.1"
 
 jobs:
   build-matrix:
@@ -29,7 +30,7 @@ jobs:
 
       - name: Install PyInstaller
         run: |
-          pip install -U pyinstaller
+          pip install -U pyinstaller==${{ env.pyinstaller_version }}
           pip install -r ./src/launcher/requirements.txt
 
       - name: Build launcher

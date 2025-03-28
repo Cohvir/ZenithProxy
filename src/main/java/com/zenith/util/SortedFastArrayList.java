@@ -1,6 +1,6 @@
 package com.zenith.util;
 
-import lombok.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

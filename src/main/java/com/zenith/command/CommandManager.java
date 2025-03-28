@@ -38,6 +38,7 @@ public class CommandManager {
         new AutoEatCommand(),
         new AutoFishCommand(),
         new AutoMendCommand(),
+        new AutoOmenCommand(),
         new AutoReconnectCommand(),
         new AutoReplyCommand(),
         new AutoRespawnCommand(),
@@ -70,10 +71,12 @@ public class CommandManager {
         new PrioCommand(),
         new QueueStatusCommand(),
         new QueueWarningCommand(),
+        new RateLimiterCommand(),
         new RaycastCommand(),
         new ReconnectCommand(),
         new ReleaseChannelCommand(),
         new ReplayCommand(),
+        new RequeueCommand(),
         new RespawnCommand(),
         new RotateCommand(),
         new SeenCommand(),
@@ -135,7 +138,7 @@ public class CommandManager {
 
     public void execute(final CommandContext context, final ParseResults<CommandContext> parseResults) {
         try {
-            executeWithHandlers(context, parseResults);
+            execute0(context, parseResults);
         } catch (final CommandSyntaxException e) {
             // fall through
             // errors handled by delegate
@@ -166,7 +169,7 @@ public class CommandManager {
         }
     }
 
-    private int executeWithHandlers(final CommandContext context, final ParseResults<CommandContext> parse) throws CommandSyntaxException {
+    private void execute0(final CommandContext context, final ParseResults<CommandContext> parse) throws CommandSyntaxException {
         var commandNodeOptional = parse.getContext()
             .getNodes()
             .stream()
@@ -174,19 +177,26 @@ public class CommandManager {
             .map(ParsedCommandNode::getNode)
             .filter(node -> node instanceof CaseInsensitiveLiteralCommandNode)
             .map(node -> ((CaseInsensitiveLiteralCommandNode<CommandContext>) node));
-        var errorHandler = commandNodeOptional.flatMap(CaseInsensitiveLiteralCommandNode::getErrorHandler);
-        var successHandler = commandNodeOptional.flatMap(CaseInsensitiveLiteralCommandNode::getSuccessHandler);
+        if (commandNodeOptional.isEmpty()) return;
+        var commandNode = commandNodeOptional.get();
+        var errorHandler = commandNode.getErrorHandler();
+        var successHandler = commandNode.getSuccessHandler();
+        var executionErrorHandler = commandNode.getExecutionErrorHandler();
 
         if (!parse.getExceptions().isEmpty() || parse.getReader().canRead()) {
-            errorHandler.ifPresent(handler -> handler.handle(parse.getExceptions(), context));
-            return -1;
+            errorHandler.handle(parse.getExceptions(), context);
+            return;
         }
         dispatcher.setConsumer((commandContext, success, result) -> {
-            if (success) successHandler.ifPresent(handler -> handler.handle(context));
-            else errorHandler.ifPresent(handler -> handler.handle(parse.getExceptions(), context));
+            if (success) {
+                if (result == Command.OK)
+                    successHandler.handle(context);
+                else
+                    executionErrorHandler.handle(context);
+            }
+            else errorHandler.handle(parse.getExceptions(), context);
         });
-
-        return dispatcher.execute(parse);
+        dispatcher.execute(parse);
     }
 
     public String getCommandPrefix(final CommandSource source) {

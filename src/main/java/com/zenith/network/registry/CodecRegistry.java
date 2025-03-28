@@ -2,10 +2,10 @@ package com.zenith.network.registry;
 
 import com.zenith.util.SortedFastArrayList;
 import lombok.Data;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.network.Session;
 import org.geysermc.mcprotocollib.network.packet.Packet;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;

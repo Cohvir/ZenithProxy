@@ -5,9 +5,9 @@ import com.zenith.cache.data.entity.EntityPlayer;
 import com.zenith.event.proxy.PlayerLeftVisualRangeEvent;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.data.game.PlayerListEntry;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.ClientboundRemoveEntitiesPacket;
+import org.jspecify.annotations.NonNull;
 
 import static com.zenith.Shared.*;
 

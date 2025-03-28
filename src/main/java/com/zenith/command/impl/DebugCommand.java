@@ -9,6 +9,7 @@ import com.zenith.command.CommandUsage;
 import com.zenith.command.brigadier.CommandCategory;
 import com.zenith.command.brigadier.CommandContext;
 import com.zenith.discord.Embed;
+import org.geysermc.mcprotocollib.protocol.codec.MinecraftTypes;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.Effect;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.ClientboundRemoveMobEffectPacket;
 
@@ -114,7 +115,7 @@ public class DebugCommand extends Command {
                             ChunkCache.sync();
                             c.getSource().getEmbed()
                                 .title("Synced Chunks");
-                            return 1;
+                            return OK;
                         })))
             .then(literal("clearEffects").executes(c -> {
                 CACHE.getPlayerCache().getThePlayer().getPotionEffectMap().clear();
@@ -155,6 +156,12 @@ public class DebugCommand extends Command {
                 CONFIG.debug.server.cache.fullbrightChunkSkylight = getToggle(c, "toggle");
                 c.getSource().getEmbed()
                     .title("Chunk Cache Fullbright " + toggleStrCaps(CONFIG.debug.server.cache.fullbrightChunkSkylight));
+                return OK;
+            })))
+            .then(literal("binaryNbtComponentSerializer").then(argument("toggle", toggle()).executes(c -> {
+                MinecraftTypes.useBinaryNbtComponentSerializer = getToggle(c, "toggle");
+                c.getSource().getEmbed()
+                    .title("Binary NBT Component Serializer " + toggleStrCaps(MinecraftTypes.useBinaryNbtComponentSerializer));
                 return OK;
             })));
     }

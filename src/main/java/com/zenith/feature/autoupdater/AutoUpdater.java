@@ -6,8 +6,8 @@ import com.zenith.event.proxy.UpdateAvailableEvent;
 import com.zenith.event.proxy.UpdateStartEvent;
 import com.zenith.feature.queue.Queue;
 import lombok.Getter;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;

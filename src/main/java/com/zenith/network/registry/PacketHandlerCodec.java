@@ -1,5 +1,7 @@
 package com.zenith.network.registry;
 
+import com.zenith.network.client.ClientSession;
+import com.zenith.network.server.ServerSession;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.geysermc.mcprotocollib.network.Session;
@@ -14,6 +16,10 @@ import java.util.function.Predicate;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class PacketHandlerCodec {
+    /**
+     * For inbound packets, higher priority codecs are invoked first
+     * For outbound packets, lower priority codecs are invoked first
+     */
     private final int priority;
     @EqualsAndHashCode.Include private final String id;
     private final EnumMap<ProtocolState, PacketHandlerStateCodec<? extends Session>> stateCodecs;
@@ -22,6 +28,14 @@ public class PacketHandlerCodec {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public static Builder<ClientSession> clientBuilder() {
+        return new Builder<>();
+    }
+
+    public static Builder<ServerSession> serverBuilder() {
+        return new Builder<>();
     }
 
     protected static final PacketHandlerStateCodec defaultStateCodec = PacketHandlerStateCodec.builder().build();
@@ -45,20 +59,31 @@ public class PacketHandlerCodec {
     @Getter
     @Setter
     @Accessors(chain = true)
-    public static class Builder {
+    public static class Builder<S extends Session> {
         private final EnumMap<ProtocolState, PacketHandlerStateCodec<? extends Session>> aStateCodecs = new EnumMap<>(ProtocolState.class);
+        /**
+         * For inbound packets, higher priority codecs are invoked first
+         * For outbound packets, lower priority codecs are invoked first
+         */
         private int priority;
         private String id;
-        private Predicate<Session> activePredicate = session -> true;
+        private Predicate<S> activePredicate = session -> true;
 
-        public Builder state(ProtocolState state, PacketHandlerStateCodec<? extends Session> codec) {
+        public Builder<S> state(ProtocolState state, PacketHandlerStateCodec<S> codec) {
             this.aStateCodecs.put(state, codec);
+            return this;
+        }
+
+        public Builder<S> allStates(PacketHandlerStateCodec<S> codec) {
+            for (ProtocolState state : ProtocolState.values()) {
+                this.aStateCodecs.put(state, codec);
+            }
             return this;
         }
 
         public PacketHandlerCodec build() {
             Objects.requireNonNull(this.id, "id");
-            return new PacketHandlerCodec(priority, id, this.aStateCodecs, activePredicate);
+            return new PacketHandlerCodec(priority, id, aStateCodecs, (Predicate<Session>) activePredicate);
         }
     }
 }

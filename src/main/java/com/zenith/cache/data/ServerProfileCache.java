@@ -2,13 +2,13 @@ package com.zenith.cache.data;
 
 import com.zenith.cache.CacheResetType;
 import com.zenith.cache.CachedData;
-import lombok.NonNull;
 import lombok.Setter;
 import org.geysermc.mcprotocollib.auth.GameProfile;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.network.tcp.TcpSession;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 @Setter

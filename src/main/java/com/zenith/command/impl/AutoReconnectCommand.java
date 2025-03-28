@@ -41,21 +41,21 @@ public class AutoReconnectCommand extends Command {
                 MODULE.get(AutoReconnect.class).cancelAutoReconnect();
                 c.getSource().getEmbed()
                     .title("AutoReconnect " + toggleStrCaps(CONFIG.client.extra.autoReconnect.enabled));
-                return 1;
+                return OK;
             }))
             .then(literal("delay")
                       .then(argument("delaySec", integer(0, 1000)).executes(c -> {
                           CONFIG.client.extra.autoReconnect.delaySeconds = IntegerArgumentType.getInteger(c, "delaySec");
                           c.getSource().getEmbed()
                               .title("AutoReconnect Delay Updated!");
-                          return 1;
+                          return OK;
                       })))
             .then(literal("maxAttempts")
                       .then(argument("maxAttempts", integer(1)).executes(c -> {
                           CONFIG.client.extra.autoReconnect.maxAttempts = IntegerArgumentType.getInteger(c, "maxAttempts");
                           c.getSource().getEmbed()
                               .title("AutoReconnect Max Attempts Updated!");
-                          return 1;
+                          return OK;
                       })));
     }
 

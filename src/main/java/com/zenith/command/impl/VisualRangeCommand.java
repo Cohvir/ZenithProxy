@@ -168,19 +168,24 @@ public class VisualRangeCommand extends Command {
                                 .title("Replay Recording " + toggleStrCaps(CONFIG.client.extra.visualRange.replayRecording));
                             return OK;
                       }))
-                      .then(literal("mode")
-                                .then(literal("enemy").executes(c -> {
-                                    CONFIG.client.extra.visualRange.replayRecordingMode = Config.Client.Extra.VisualRange.ReplayRecordingMode.ENEMY;
-                                    c.getSource().getEmbed()
-                                        .title("Replay Recording Mode Set");
-                                    return OK;
-                                }))
-                                .then(literal("all").executes(c -> {
-                                    CONFIG.client.extra.visualRange.replayRecordingMode = Config.Client.Extra.VisualRange.ReplayRecordingMode.ALL;
-                                    c.getSource().getEmbed()
-                                        .title("Replay Recording Mode Set");
-                                    return OK;
-                                })))
+                      .then(literal("mode").then(argument("modeArg", enumStrings("enemy", "all")).executes(c -> {
+                          var arg = getString(c, "modeArg");
+                          var mode = switch (arg) {
+                              case "enemy" -> Config.Client.Extra.VisualRange.ReplayRecordingMode.ENEMY;
+                              case "all" -> Config.Client.Extra.VisualRange.ReplayRecordingMode.ALL;
+                              default -> null;
+                          };
+                          if (mode == null) {
+                              c.getSource().getEmbed()
+                                  .title("Invalid Replay Recording Mode");
+                              return ERROR;
+                          } else {
+                              CONFIG.client.extra.visualRange.replayRecordingMode = mode;
+                              c.getSource().getEmbed()
+                                  .title("Replay Recording Mode Set");
+                              return OK;
+                          }
+                      })))
                       .then(literal("cooldown").then(argument("minutes", integer(0)).executes(c -> {
                           CONFIG.client.extra.visualRange.replayRecordingCooldownMins = getInteger(c, "minutes");
                           c.getSource().getEmbed()

@@ -1,7 +1,5 @@
 package com.zenith.feature.map;
 
-import com.viaversion.nbt.io.MNBTIO;
-import com.viaversion.nbt.tag.CompoundTag;
 import com.zenith.cache.data.chunk.Chunk;
 import com.zenith.feature.world.World;
 import com.zenith.mc.block.Block;
@@ -10,9 +8,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import lombok.SneakyThrows;
 import org.geysermc.mcprotocollib.protocol.data.game.chunk.BitStorage;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
+import org.jspecify.annotations.NonNull;
 
 import static com.zenith.Shared.*;
 import static com.zenith.cache.data.chunk.Chunk.chunkPosToLong;
@@ -21,21 +17,16 @@ public class MapGenerator {
 
     @SneakyThrows
     public static byte[] generateMapData() {
-        return generateMapData(128, false, true);
+        return generateMapData(128, true);
     }
 
     @SneakyThrows
     public static byte[] generateMapData(final int size) {
-        return generateMapData(size, false, true);
+        return generateMapData(size, true);
     }
 
     @SneakyThrows
     public static byte[] generateMapData(final int size, final boolean vanillaAlign) {
-        return generateMapData(size, false, vanillaAlign);
-    }
-
-    @SneakyThrows
-    public static byte[] generateMapData(final int size, final boolean cachedHeightMap, final boolean vanillaAlign) {
         final int chunksSize = size / 16;
         final int dataSize = size * size;
         final int halfWChunks = chunksSize / 2;
@@ -65,9 +56,7 @@ public class MapGenerator {
         final int minBlockZ = minChunkZ * 16;
         final int maxBlockX = maxChunkX * 16;
         final int maxBlockZ = maxChunkZ * 16;
-        final Long2ObjectMap<BitStorage> chunkToHeightMap = cachedHeightMap
-            ? getCachedHeightMap(minChunkX, minChunkZ - 1, maxChunkX, maxChunkZ)
-            : generateHeightMapFromChunkData(minChunkX, minChunkZ - 1, maxChunkX, maxChunkZ);
+        final Long2ObjectMap<BitStorage> chunkToHeightMap = generateHeightMapFromChunkData(minChunkX, minChunkZ - 1, maxChunkX, maxChunkZ);
 
         for (int x = minBlockX; x < maxBlockX; x++) {
             double d0 = 0.0;
@@ -149,38 +138,7 @@ public class MapGenerator {
         return data;
     }
 
-    /**
-     * The issue with the cached height maps is that we don't update our cached values like the vanilla MC client does
-     * so this data will fall out of sync and cause divergence of what the player sees and what's generated
-     * This would only occur if there were individual block updates that changed the height map
-     *
-     * We could update our chunk cache to constantly update the height map data, but that would cause extra GC and cpu pressure
-     * and we only use it here, so it's not worth it
-     * maybe if there was some need to update the heightmaps for players having issues or something
-     */
-    @NotNull
-    private static Long2ObjectMap<BitStorage> getCachedHeightMap(final int minChunkX, final int minChunkZ, final int maxChunkX, final int maxChunkZ) throws IOException {
-        final Long2ObjectMap<BitStorage> chunkToHeightMap = new Long2ObjectOpenHashMap<>((maxChunkX - minChunkX) * (maxChunkZ - minChunkZ));
-        for (int chunkX = minChunkX; chunkX < maxChunkX; chunkX++) {
-            for (int chunkZ = minChunkZ; chunkZ < maxChunkZ; chunkZ++) {
-                final Chunk chunk = CACHE.getChunkCache().get(chunkX, chunkZ);
-                if (chunk == null) continue;
-                final BitStorage heightsStorage = getCachedHeightMapData(chunk);
-                chunkToHeightMap.put(chunkPosToLong(chunkX, chunkZ), heightsStorage);
-            }
-        }
-        return chunkToHeightMap;
-    }
-
-    private static BitStorage getCachedHeightMapData(Chunk chunk) {
-        var heightMaps = chunk.getHeightMaps();
-        var heightMapNBT = (CompoundTag) MNBTIO.read(heightMaps);
-        long[] worldSurfaces = heightMapNBT.getLongArrayTag("WORLD_SURFACE").getValue();
-        int bitsPerEntry = MathHelper.log2Ceil((chunk.getMaxSection() << 4) + 1);
-        return new BitStorage(bitsPerEntry, 256, worldSurfaces);
-    }
-
-    @NotNull
+    @NonNull
     private static Long2ObjectMap<BitStorage> generateHeightMapFromChunkData(final int minChunkX, final int minChunkZ, final int maxChunkX, final int maxChunkZ) {
         final Long2ObjectMap<BitStorage> chunkToHeightMap = new Long2ObjectOpenHashMap<>((maxChunkX - minChunkX) * (maxChunkZ - minChunkZ));
         for (int chunkX = minChunkX; chunkX < maxChunkX; chunkX++) {

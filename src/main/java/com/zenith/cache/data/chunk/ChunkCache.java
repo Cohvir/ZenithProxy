@@ -15,7 +15,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import net.kyori.adventure.key.Key;
 import org.geysermc.mcprotocollib.network.packet.Packet;
@@ -36,7 +35,8 @@ import org.geysermc.mcprotocollib.protocol.packet.common.clientbound.Clientbound
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundRespawnPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.level.*;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.level.border.ClientboundInitializeBorderPacket;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -144,7 +144,7 @@ public class ChunkCache implements CachedData {
                 chunk.x,
                 chunk.z,
                 chunk.sections,
-                chunk.heightMaps,
+                chunk.getHeightMap(),
                 chunk.blockEntities.toArray(new BlockEntityInfo[0]),
                 chunk.lightUpdateData)
             )
@@ -272,6 +272,7 @@ public class ChunkCache implements CachedData {
     }
 
     public boolean handleLightUpdate(final ClientboundLightUpdatePacket packet) {
+        if (CONFIG.debug.server.cache.fullbrightChunkSkylight) return true;
         final var chunk = get(packet.getX(), packet.getZ());
         if (chunk != null) chunk.lightUpdateData = packet.getLightData();
         // todo: silently ignoring updates for uncached chunks. should we enqueue them to be processed later?
@@ -371,11 +372,10 @@ public class ChunkCache implements CachedData {
                     chunk.x,
                     chunk.z,
                     chunk.sections,
-                    chunk.heightMaps,
+                    chunk.getHeightMap(),
                     chunk.blockEntities.toArray(new BlockEntityInfo[0]),
-                    CONFIG.debug.server.cache.fullbrightChunkSkylight
-                        ? createFullBrightLightData(chunk.lightUpdateData, chunk.sections.length)
-                        : chunk.lightUpdateData));
+                    chunk.lightUpdateData
+                ));
             }
             consumer.accept(new ClientboundChunkBatchFinishedPacket(this.cache.size()));
         } catch (Exception e) {
@@ -441,8 +441,10 @@ public class ChunkCache implements CachedData {
                 getMaxSection(),
                 getMinSection(),
                 blockEntities,
-                p.getLightData(),
-                p.getHeightMaps());
+                CONFIG.debug.server.cache.fullbrightChunkSkylight
+                    ? createFullBrightLightData(p.getLightData(), p.getSections().length)
+                    : p.getLightData()
+            );
         }
         this.cache.put(pos, chunk);
     }

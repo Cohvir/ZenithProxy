@@ -7,8 +7,8 @@ import org.jline.reader.LineReader;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.terminal.impl.DumbTerminal;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 
 public class TerminalConsoleAppender extends ConsoleAppender<ILoggingEvent> {

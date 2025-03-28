@@ -13,7 +13,6 @@ import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
 import java.util.stream.Collectors;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.integer;
-import static com.mojang.brigadier.arguments.StringArgumentType.string;
 import static com.zenith.Shared.CONFIG;
 import static com.zenith.Shared.MODULE;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
@@ -113,17 +112,17 @@ public class KillAuraCommand extends Command {
                             CONFIG.client.extra.killAura.switchWeapon = getToggle(c, "toggle");
                             c.getSource().getEmbed()
                                          .title("Weapon Switching " + toggleStrCaps(CONFIG.client.extra.killAura.switchWeapon));
-                            return 1;
+                            return OK;
                       })))
             .then(literal("targetCustom")
                       .then(argument("toggle", toggle()).executes(c -> {
                             CONFIG.client.extra.killAura.targetCustom = getToggle(c, "toggle");
                             c.getSource().getEmbed()
                                          .title("Target Custom " + toggleStrCaps(CONFIG.client.extra.killAura.targetCustom));
-                            return 1;
+                            return OK;
                       }))
                       .then(literal("add")
-                                .then(argument("entityType", string()).executes(c -> {
+                                .then(argument("entityType", enumStrings(EntityType.values())).executes(c -> {
                                     var entityType = c.getArgument("entityType", String.class);
                                     var foundType = entityType.toUpperCase();
                                     try {
@@ -137,10 +136,10 @@ public class KillAuraCommand extends Command {
                                                      .title("Invalid Entity Type")
                                                      .errorColor();
                                     }
-                                    return 1;
+                                    return OK;
                                 })))
                       .then(literal("del")
-                                .then(argument("entityType", string()).executes(c -> {
+                                .then(argument("entityType", enumStrings(EntityType.values())).executes(c -> {
                                     var entityType = c.getArgument("entityType", String.class);
                                     var foundType = entityType.toUpperCase();
                                     try {
@@ -153,7 +152,7 @@ public class KillAuraCommand extends Command {
                                             .title("Invalid Entity Type")
                                             .errorColor();
                                     }
-                                    return 1;
+                                    return OK;
                                 }))))
             .then(literal("priority")
                       .then(literal("none").executes(c -> {

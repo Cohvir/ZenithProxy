@@ -1,7 +1,7 @@
 package com.zenith.util;
 
 import lombok.Data;
-import lombok.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.lang.reflect.Array;
 

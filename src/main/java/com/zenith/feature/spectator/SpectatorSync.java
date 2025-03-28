@@ -10,7 +10,7 @@ import com.zenith.feature.spectator.entity.mob.SpectatorEntityPlayerHead;
 import com.zenith.network.server.ServerSession;
 import com.zenith.util.math.MathHelper;
 import org.geysermc.mcprotocollib.network.packet.Packet;
-import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.MetadataType;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.MetadataTypes;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.type.ByteEntityMetadata;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.type.FloatEntityMetadata;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundSetCameraPacket;
@@ -94,8 +94,8 @@ public final class SpectatorSync {
         spectatorEntityPlayer.setEntityId(session.getSpectatorSelfEntityId());
         spectatorEntityPlayer.setYaw(CACHE.getPlayerCache().getYaw());
         spectatorEntityPlayer.setPitch(CACHE.getPlayerCache().getPitch());
-        spectatorEntityPlayer.getMetadata().put(9, new FloatEntityMetadata(9, MetadataType.FLOAT, 20.0f)); // health
-        spectatorEntityPlayer.getMetadata().put(17, new ByteEntityMetadata(17, MetadataType.BYTE, (byte) 255)); // visible skin parts
+        spectatorEntityPlayer.getMetadata().put(9, new FloatEntityMetadata(9, MetadataTypes.FLOAT, 20.0f)); // health
+        spectatorEntityPlayer.getMetadata().put(17, new ByteEntityMetadata(17, MetadataTypes.BYTE, (byte) 255)); // visible skin parts
         return spectatorEntityPlayer;
     }
 

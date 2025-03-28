@@ -2,11 +2,11 @@ package com.zenith.cache.data.bossbar;
 
 import com.zenith.cache.CacheResetType;
 import com.zenith.cache.CachedData;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.network.tcp.TcpSession;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundBossEventPacket;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 import java.util.UUID;

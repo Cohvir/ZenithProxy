@@ -5,8 +5,8 @@ import com.zenith.cache.data.entity.EntityLiving;
 import com.zenith.cache.data.entity.PotionEffect;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.ClientboundUpdateMobEffectPacket;
+import org.jspecify.annotations.NonNull;
 
 import static com.zenith.Shared.CACHE;
 import static com.zenith.Shared.CLIENT_LOG;

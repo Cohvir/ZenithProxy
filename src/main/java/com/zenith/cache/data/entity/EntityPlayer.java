@@ -3,7 +3,6 @@ package com.zenith.cache.data.entity;
 import com.zenith.module.impl.PlayerSimulation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
 import org.geysermc.mcprotocollib.network.packet.Packet;
@@ -16,6 +15,7 @@ import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.play
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.player.ClientboundSetExperiencePacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.player.ClientboundSetHealthPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.spawn.ClientboundAddEntityPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +83,8 @@ public class EntityPlayer extends EntityLiving {
                 this.y,
                 this.z,
                 this.yaw,
-                this.pitch,
-                this.headYaw
+                this.headYaw,
+                this.pitch
             ));
             consumer.accept(new ClientboundRotateHeadPacket(
                 this.entityId,

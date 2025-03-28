@@ -17,7 +17,7 @@ import com.zenith.util.Config.Client.Extra.ReplayMod.AutoRecordMode;
 import org.geysermc.mcprotocollib.network.Session;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.protocol.codec.MinecraftPacket;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

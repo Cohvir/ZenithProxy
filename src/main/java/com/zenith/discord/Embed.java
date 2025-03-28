@@ -2,11 +2,11 @@ package com.zenith.discord;
 
 import com.zenith.util.Color;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.experimental.Accessors;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -80,6 +80,16 @@ public class Embed {
     public Embed addField(String name, Object value, boolean inline) {
         fields.add(new Field(name, String.valueOf(value), inline));
         return this;
+    }
+
+    // inline defaulted to false
+    public Embed addField(String name, String value) {
+        return addField(name, value, false);
+    }
+
+    // inline defaulted to false
+    public Embed addField(String name, Object value) {
+        return addField(name, value, false);
     }
 
     public Embed footer(String text, String iconUrl) {

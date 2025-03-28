@@ -1,7 +1,7 @@
 package com.zenith.feature.items;
 
 import lombok.Data;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 

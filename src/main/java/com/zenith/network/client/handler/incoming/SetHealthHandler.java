@@ -3,8 +3,8 @@ package com.zenith.network.client.handler.incoming;
 import com.zenith.event.module.PlayerHealthChangedEvent;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.player.ClientboundSetHealthPacket;
+import org.jspecify.annotations.NonNull;
 
 import static com.zenith.Shared.*;
 

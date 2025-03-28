@@ -8,7 +8,7 @@ import com.zenith.mc.item.ItemRegistry;
 import com.zenith.module.Module;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.EquipmentSlot;
 import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +40,6 @@ public class AutoArmor extends Module {
     }
 
     private void handleClientBotTick(ClientBotTick clientBotTick) {
-        if (MODULE.get(AutoEat.class).isEating()) return;
         if (delay > 0) {
             delay--;
             return;

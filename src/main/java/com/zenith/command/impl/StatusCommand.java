@@ -10,6 +10,7 @@ import com.zenith.command.brigadier.CommandContext;
 import com.zenith.feature.queue.Queue;
 import com.zenith.module.impl.*;
 import com.zenith.network.server.ServerSession;
+import com.zenith.util.math.MathHelper;
 import net.dv8tion.jda.api.utils.TimeFormat;
 
 import java.time.Duration;
@@ -40,9 +41,9 @@ public class StatusCommand extends Command {
     public static String getCoordinates(final Entity entity) {
         if (CONFIG.discord.reportCoords) {
             return "||["
-                    + (int) entity.getX() + ", "
-                    + (int) entity.getY() + ", "
-                    + (int) entity.getZ()
+                    + MathHelper.floorI(entity.getX()) + ", "
+                    + MathHelper.floorI(entity.getY()) + ", "
+                    + MathHelper.floorI(entity.getZ())
                     + "]||";
         } else {
             return "Coords disabled";

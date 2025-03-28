@@ -63,7 +63,7 @@ public class HelpCommand extends Command {
                     .ifPresentOrElse(
                         category -> populateCategory(c.getSource(), category),
                         () -> populateCommand(c.getSource(), commandName));
-                return 1;
+                return OK;
             }));
     }
 

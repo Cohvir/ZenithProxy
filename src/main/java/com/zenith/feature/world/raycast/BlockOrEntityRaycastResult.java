@@ -1,6 +1,6 @@
 package com.zenith.feature.world.raycast;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public record BlockOrEntityRaycastResult(boolean hit, @Nullable BlockRaycastResult block, @Nullable EntityRaycastResult entity) {
     public static BlockOrEntityRaycastResult miss() {

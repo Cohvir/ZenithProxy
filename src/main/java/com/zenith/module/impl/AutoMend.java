@@ -4,7 +4,7 @@ import com.github.rfresh2.EventConsumer;
 import com.zenith.event.module.ClientBotTick;
 import com.zenith.mc.enchantment.EnchantmentRegistry;
 import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
-import org.geysermc.mcprotocollib.protocol.data.game.item.component.DataComponentType;
+import org.geysermc.mcprotocollib.protocol.data.game.item.component.DataComponentTypes;
 
 import java.util.List;
 
@@ -50,10 +50,10 @@ public class AutoMend extends AbstractInventoryModule {
     public boolean itemPredicate(final ItemStack itemStack) {
         var dataComponents = itemStack.getDataComponents();
         if (dataComponents == null) return false;
-        var enchantmentComponents = dataComponents.get(DataComponentType.ENCHANTMENTS);
+        var enchantmentComponents = dataComponents.get(DataComponentTypes.ENCHANTMENTS);
         if (enchantmentComponents == null) return false;
         if (!enchantmentComponents.getEnchantments().containsKey(EnchantmentRegistry.MENDING.id())) return false;
-        var damageComponent = dataComponents.get(DataComponentType.DAMAGE);
+        var damageComponent = dataComponents.get(DataComponentTypes.DAMAGE);
         if (damageComponent == null) return false;
         return damageComponent > 0;
     }

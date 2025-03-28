@@ -4,12 +4,12 @@ import com.zenith.cache.CacheResetType;
 import com.zenith.cache.CachedData;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Data;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.network.tcp.TcpSession;
 import org.geysermc.mcprotocollib.protocol.data.game.recipe.Recipe;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundRecipePacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundUpdateRecipesPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Collections;
 import java.util.List;

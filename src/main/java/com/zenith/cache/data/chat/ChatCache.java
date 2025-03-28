@@ -3,7 +3,6 @@ package com.zenith.cache.data.chat;
 import com.zenith.cache.CacheResetType;
 import com.zenith.cache.CachedData;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.experimental.Accessors;
 import net.raphimc.minecraftauth.step.java.StepPlayerCertificates;
 import org.geysermc.mcprotocollib.network.packet.Packet;
@@ -11,7 +10,8 @@ import org.geysermc.mcprotocollib.network.tcp.TcpSession;
 import org.geysermc.mcprotocollib.protocol.data.game.RegistryEntry;
 import org.geysermc.mcprotocollib.protocol.data.game.command.CommandNode;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundCommandsPacket;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class ChatCache implements CachedData {
     protected volatile long lastChatTimestamp = System.currentTimeMillis();
     protected boolean enforcesSecureChat = false;
     protected @Nullable ChatSession chatSession = new ChatSession(UUID.randomUUID());
-    protected @Nullable StepPlayerCertificates.PlayerCertificates playerCertificates;
+    protected StepPlayerCertificates.@Nullable PlayerCertificates playerCertificates;
     protected ChatTypeRegistry chatTypeRegistry = new ChatTypeRegistry();
 
     @Override

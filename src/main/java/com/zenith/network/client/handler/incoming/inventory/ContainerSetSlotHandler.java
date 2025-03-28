@@ -3,8 +3,8 @@ package com.zenith.network.client.handler.incoming.inventory;
 import com.zenith.feature.spectator.SpectatorSync;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.inventory.ClientboundContainerSetSlotPacket;
+import org.jspecify.annotations.NonNull;
 
 import static com.zenith.Shared.CACHE;
 

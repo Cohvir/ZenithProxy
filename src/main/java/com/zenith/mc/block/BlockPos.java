@@ -1,7 +1,7 @@
 package com.zenith.mc.block;
 
 import com.zenith.util.math.MathHelper;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public record BlockPos(int x, int y, int z) implements Comparable<BlockPos> {
     public int getChunkX() {
@@ -92,7 +92,7 @@ public record BlockPos(int x, int y, int z) implements Comparable<BlockPos> {
     }
 
     @Override
-    public int compareTo(@NotNull final BlockPos o) {
+    public int compareTo(@NonNull final BlockPos o) {
         if (this.y() == o.y()) {
             return this.z() == o.z() ? this.x() - o.x() : this.z() - o.z();
         } else {

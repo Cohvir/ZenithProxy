@@ -53,7 +53,7 @@ public class MapCommand extends Command {
                                   .description("**Known Map ID's**\n" + knownIdList)
                                   .addField("Map ID", id, true)
                                   .errorColor();
-                              return 1;
+                              return OK;
                           }
                           var bytes = MapRenderer.render(mapData.getData(), id);
                           var attachmentName = "map_" + id + ".png";
@@ -66,7 +66,7 @@ public class MapCommand extends Command {
                               ))
                               .image("attachment://" + attachmentName)
                               .primaryColor();
-                          return 1;
+                          return OK;
                       }))
                       .then(literal("all").executes(c -> {
                           final AtomicInteger count = new AtomicInteger(0);
@@ -78,21 +78,21 @@ public class MapCommand extends Command {
                               .title("All Cached Maps Rendered")
                               .primaryColor()
                               .addField("Map Count", count.get(), false);
-                          return 1;
+                          return OK;
                       })))
             .then(literal("generate")
                       .executes(c -> {
                           generate(c.getSource().getEmbed(), 4, false);
-                          return 1;
+                          return OK;
                       })
                       .then(literal("align").executes(c -> {
                           generate(c.getSource().getEmbed(), 4, true);
-                          return 1;
+                          return OK;
                       }))
                       .then(argument("viewDistance", integer(1, 16)).executes(c -> {
                           var viewDistance = c.getArgument("viewDistance", Integer.class);
                           generate(c.getSource().getEmbed(), viewDistance, false);
-                          return 1;
+                          return OK;
                       })));
     }
 

@@ -5,7 +5,6 @@
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
-    <serializeModel file="src/main/resources/logback.scmo"/>
     <import class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"/>
     <import class="ch.qos.logback.classic.filter.ThresholdFilter"/>
     <import class="ch.qos.logback.classic.filter.LevelFilter"/>

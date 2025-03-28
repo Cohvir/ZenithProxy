@@ -58,7 +58,7 @@ public class WhitelistCommand extends Command {
                     c.getSource().getEmbed()
                             .title("Removed user: " + escape(player) + " From Whitelist");
                     Proxy.getInstance().kickNonWhitelistedPlayers();
-                    return 1;
+                    return OK;
                 })))
                 .then(literal("list").executes(c -> {
                     c.getSource().getEmbed()
@@ -69,14 +69,14 @@ public class WhitelistCommand extends Command {
                     c.getSource().getEmbed()
                             .title("Whitelist Cleared");
                     Proxy.getInstance().kickNonWhitelistedPlayers();
-                    return 1;
+                    return OK;
                 }))
             .then(literal("autoAddZenithAccount").requires(Command::validateAccountOwner)
                       .then(argument("toggle", toggle()).executes(c -> {
                           CONFIG.server.extra.whitelist.autoAddClient = getToggle(c, "toggle");
                           c.getSource().getEmbed()
                               .title("Auto Add Zenith Account " + toggleStrCaps(CONFIG.server.extra.whitelist.autoAddClient));
-                          return 1;
+                          return OK;
                       })));
     }
 

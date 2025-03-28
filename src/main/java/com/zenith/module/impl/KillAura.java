@@ -13,8 +13,8 @@ import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.type.ByteEntityMetadata;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
 import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
+import org.jspecify.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.Comparator;
 import java.util.List;
@@ -43,7 +43,7 @@ public class KillAura extends AbstractInventoryModule {
     private int delay = 0;
     private final WeakReference<EntityLiving> nullRef = new WeakReference<>(null);
     private WeakReference<EntityLiving> attackTarget = nullRef;
-    private static final int MOVEMENT_PRIORITY = 500;
+    public static final int MOVEMENT_PRIORITY = 500;
     private final IntSet swords = IntSet.of(
         ItemRegistry.DIAMOND_SWORD.id(),
         ItemRegistry.NETHERITE_SWORD.id(),
@@ -90,16 +90,17 @@ public class KillAura extends AbstractInventoryModule {
                 if (!hasRotation(target)) {
                     rotateTo(target);
                 }
+                INVENTORY.invActionReq(this, MOVEMENT_PRIORITY - 1);
             }
             return;
         }
-        if (CACHE.getPlayerCache().getThePlayer().isAlive()
-                && !MODULE.get(AutoEat.class).isEating()) {
+        if (CACHE.getPlayerCache().getThePlayer().isAlive()) {
             final EntityLiving target = findTarget();
             if (target != null) {
                 if (!attackTarget.refersTo(target))
                     attackTarget = new WeakReference<>(target);
                 if (switchToWeapon()) {
+                    INVENTORY.invActionReq(this, MOVEMENT_PRIORITY - 1);
                     attack(target).addInputExecutedListener(this::onAttackInputExecuted);
                 } else {
                     // stop while doing inventory actions

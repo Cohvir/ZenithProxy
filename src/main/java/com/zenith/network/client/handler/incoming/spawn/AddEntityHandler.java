@@ -8,10 +8,10 @@ import com.zenith.event.proxy.NewPlayerInVisualRangeEvent;
 import com.zenith.feature.whitelist.PlayerListsManager;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.data.game.PlayerListEntry;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.entity.spawn.ClientboundAddEntityPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 

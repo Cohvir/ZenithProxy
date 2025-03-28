@@ -96,7 +96,6 @@ public class AutoFish extends AbstractInventoryModule {
             delay--;
             return;
         }
-        if (MODULE.get(AutoEat.class).isEating() || MODULE.get(KillAura.class).isActive()) return;
         if (!isFishing()
             && switchToFishingRod()
             && isRodInHand()) {

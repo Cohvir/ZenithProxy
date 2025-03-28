@@ -4,7 +4,7 @@ import com.zenith.Proxy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +62,7 @@ public class RequestFuture implements Future<Boolean> {
 
     @SneakyThrows
     @Override
-    public Boolean get(final long timeout, @NotNull final TimeUnit unit) {
+    public Boolean get(final long timeout, @NonNull final TimeUnit unit) {
         var client = Proxy.getInstance().getClient();
         if (client != null && client.getClientEventLoop().inEventLoop()) {
             throw new IllegalStateException("Cannot block on RequestFuture in client event loop");

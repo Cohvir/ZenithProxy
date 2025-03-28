@@ -3,14 +3,13 @@ package com.zenith.cache.data.cookie;
 import com.zenith.cache.CacheResetType;
 import com.zenith.cache.CachedData;
 import lombok.Data;
-import lombok.NonNull;
 import net.kyori.adventure.key.Key;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.network.tcp.TcpSession;
 import org.geysermc.mcprotocollib.protocol.packet.common.clientbound.ClientboundCookieRequestPacket;
 import org.geysermc.mcprotocollib.protocol.packet.common.clientbound.ClientboundStoreCookiePacket;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,15 +47,15 @@ public class CookieCache implements CachedData {
      * S2C packets requesting cookie responses
      */
     @Override
-    public void getPackets(@NotNull final Consumer<Packet> consumer, final @NonNull TcpSession session) {
+    public void getPackets(@NonNull final Consumer<Packet> consumer, final @NonNull TcpSession session) {
         zenithCookies.forEach(c -> consumer.accept(new ClientboundCookieRequestPacket(c)));
     }
 
-    public void getStoreSrcPacket(@NotNull final Consumer<Packet> consumer) {
+    public void getStoreSrcPacket(@NonNull final Consumer<Packet> consumer) {
         consumer.accept(new ClientboundStoreCookiePacket(zenithTransferSrcKey, CONFIG.server.proxyIP.getBytes()));
     }
 
-    public void getStoreSpectatorDestPacket(@NotNull final Consumer<Packet> consumer, final boolean spectator) {
+    public void getStoreSpectatorDestPacket(@NonNull final Consumer<Packet> consumer, final boolean spectator) {
         consumer.accept(new ClientboundStoreCookiePacket(zenithSpectatorKey, String.valueOf(spectator).getBytes()));
     }
 

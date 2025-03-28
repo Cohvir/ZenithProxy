@@ -1,7 +1,7 @@
 package com.zenith.mc.item;
 
 import com.zenith.mc.RegistryData;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public record ItemData(
     int id,

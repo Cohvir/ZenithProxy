@@ -2,7 +2,7 @@ package com.zenith.mc.block;
 
 import com.zenith.mc.RegistryData;
 import org.geysermc.mcprotocollib.protocol.data.game.level.block.BlockEntityType;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.EnumSet;
 

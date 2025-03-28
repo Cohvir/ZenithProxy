@@ -5,6 +5,7 @@ on:
 
 env:
   python_version: '3.12.8'
+  pyinstaller_version: "6.11.1"
 
 jobs:
   build-mac:
@@ -36,7 +37,7 @@ jobs:
 
       - name: Install PyInstaller
         run: |
-          pip install -U pyinstaller
+          pip install -U pyinstaller==${{ env.pyinstaller_version }}
           pip install -r ./src/launcher/requirements.txt
 
       - name: Build launcher
@@ -96,7 +97,7 @@ jobs:
 
       - name: Install PyInstaller
         run: |
-          pip install -U pyinstaller
+          pip install -U pyinstaller==${{ env.pyinstaller_version }}
           pip install -r ./src/launcher/requirements.txt
 
       - name: Build launcher
@@ -147,7 +148,7 @@ jobs:
         run: |
           docker run --rm --platform linux/arm64 --volume "${PWD}:/repo" python:${{ env.python_version }}-bullseye /bin/sh -c " \
             cd /repo && \
-            python3 -m pip install -U pyinstaller && \
+            python3 -m pip install -U pyinstaller==${{ env.pyinstaller_version }} && \
             python3 -m pip install -r ./src/launcher/requirements.txt && \
             pyinstaller --specpath ./build -p ./src/launcher --onefile --noconfirm ./src/launcher/__main__.py
           "

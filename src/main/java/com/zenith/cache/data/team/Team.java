@@ -2,7 +2,6 @@ package com.zenith.cache.data.team;
 
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,6 +10,7 @@ import org.geysermc.mcprotocollib.protocol.data.game.scoreboard.CollisionRule;
 import org.geysermc.mcprotocollib.protocol.data.game.scoreboard.NameTagVisibility;
 import org.geysermc.mcprotocollib.protocol.data.game.scoreboard.TeamColor;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.scoreboard.ClientboundSetPlayerTeamPacket;
+import org.jspecify.annotations.NonNull;
 
 
 @Getter

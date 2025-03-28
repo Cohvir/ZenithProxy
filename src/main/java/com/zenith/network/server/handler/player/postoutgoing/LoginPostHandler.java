@@ -8,18 +8,18 @@ import com.zenith.network.registry.PostOutgoingPacketHandler;
 import com.zenith.network.server.ServerSession;
 import com.zenith.util.ComponentSerializer;
 import com.zenith.via.ZenithViaInitializer;
-import lombok.NonNull;
 import net.raphimc.vialoader.netty.VLPipeline;
 import org.geysermc.mcprotocollib.protocol.codec.MinecraftCodec;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundLoginPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundSystemChatPacket;
+import org.jspecify.annotations.NonNull;
 
 import static com.zenith.Shared.*;
 
 public class LoginPostHandler implements PostOutgoingPacketHandler<ClientboundLoginPacket, ServerSession> {
     @Override
     public void accept(@NonNull ClientboundLoginPacket packet, @NonNull ServerSession session) {
-        if (CONFIG.server.extra.whitelist.enable && !session.isWhitelistChecked()) {
+        if (!session.isWhitelistChecked()) {
             // we shouldn't be able to get to this point without whitelist checking, but just in case
             session.disconnect("Login without whitelist check?");
             return;

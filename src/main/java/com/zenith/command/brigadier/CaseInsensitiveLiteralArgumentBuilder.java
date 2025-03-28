@@ -5,14 +5,21 @@ import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.zenith.command.Command;
 import com.zenith.command.util.CommandErrorHandler;
+import com.zenith.command.util.CommandExecutionErrorHandler;
 import com.zenith.command.util.CommandSuccessHandler;
 import com.zenith.command.util.IExecutes;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.Predicate;
 
 public class CaseInsensitiveLiteralArgumentBuilder<S> extends LiteralArgumentBuilder<S> {
-    private CommandErrorHandler errorHandler;
-    private CommandSuccessHandler successHandler;
+    private static final CommandErrorHandler DEFAULT_ERROR_HANDLER = (m, c) -> {};
+    private static final CommandSuccessHandler DEFAULT_SUCCESS_HANDLER = (c) -> {};
+    private static final CommandExecutionErrorHandler DEFAULT_EXECUTION_ERROR_HANDLER = (c) -> {};
+
+    private @NonNull CommandErrorHandler errorHandler = DEFAULT_ERROR_HANDLER;
+    private @NonNull CommandSuccessHandler successHandler = DEFAULT_SUCCESS_HANDLER;
+    private @NonNull CommandExecutionErrorHandler executionErrorHandler = DEFAULT_EXECUTION_ERROR_HANDLER;
 
     protected CaseInsensitiveLiteralArgumentBuilder(String literal) {
         super(literal);
@@ -32,8 +39,13 @@ public class CaseInsensitiveLiteralArgumentBuilder<S> extends LiteralArgumentBui
         return this;
     }
 
-    public CaseInsensitiveLiteralArgumentBuilder<S> withSuccesshandler(CommandSuccessHandler successHandler) {
+    public CaseInsensitiveLiteralArgumentBuilder<S> withSuccessHandler(CommandSuccessHandler successHandler) {
         this.successHandler = successHandler;
+        return this;
+    }
+
+    public CaseInsensitiveLiteralArgumentBuilder<S> withExecutionErrorHandler(CommandExecutionErrorHandler errorHandler) {
+        this.executionErrorHandler = errorHandler;
         return this;
     }
 
@@ -51,14 +63,16 @@ public class CaseInsensitiveLiteralArgumentBuilder<S> extends LiteralArgumentBui
 
     @Override
     public LiteralCommandNode<S> build() {
-        final LiteralCommandNode<S> result = new CaseInsensitiveLiteralCommandNode<>(getLiteral(),
-                                                                                     getCommand(),
-                                                                                     getRequirement(),
-                                                                                     getRedirect(),
-                                                                                     getRedirectModifier(),
-                                                                                     isFork(),
-                                                                                     errorHandler,
-                                                                                     successHandler);
+        final LiteralCommandNode<S> result = new CaseInsensitiveLiteralCommandNode<>(
+            getLiteral(),
+            getCommand(),
+            getRequirement(),
+            getRedirect(),
+            getRedirectModifier(),
+            isFork(),
+            errorHandler,
+            successHandler,
+            executionErrorHandler);
 
         for (final CommandNode<S> argument : getArguments()) {
             result.addChild(argument);

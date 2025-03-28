@@ -1,7 +1,6 @@
 package com.zenith.module.impl;
 
 import com.github.rfresh2.EventConsumer;
-import com.zenith.Proxy;
 import com.zenith.event.module.OutboundChatEvent;
 import com.zenith.module.Module;
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
@@ -10,6 +9,7 @@ import it.unimi.dsi.fastutil.doubles.DoubleList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.github.rfresh2.EventConsumer.of;
 import static com.zenith.Shared.CACHE;
 import static com.zenith.Shared.CONFIG;
 
@@ -19,7 +19,7 @@ public class AntiLeak extends Module {
     @Override
     public List<EventConsumer<?>> registerEvents() {
         return List.of(
-            EventConsumer.of(OutboundChatEvent.class, this::handleOutgoingChat)
+            of(OutboundChatEvent.class, this::handleOutgoingChat)
         );
     }
 
@@ -62,9 +62,7 @@ public class AntiLeak extends Module {
         } else event.cancel();
         if (event.isCancelled()) {
             info("Cancelled chat message: " + message);
-            inGameAlertActivePlayer("<red>Cancelled Chat");
-            if (Proxy.getInstance().hasActivePlayer())
-                Proxy.getInstance().getCurrentPlayer().get().sendAsyncAlert(moduleLogPrefix + "<red>Cancelled Chat");
+            inGameAlertActivePlayer("<red>Cancelled Chat. To disable this module, use the command: <italic>!antiLeak off");
         }
     }
 }

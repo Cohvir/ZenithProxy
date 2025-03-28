@@ -77,31 +77,31 @@ public class ActionLimiterCommand extends Command {
             })))
             .then(literal("allowInventory").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.actionLimiter.allowInventory = getToggle(c, "toggle");
-                return 1;
+                return OK;
             })))
             .then(literal("allowBlockBreaking").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.actionLimiter.allowBlockBreaking = getToggle(c, "toggle");
-                return 1;
+                return OK;
             })))
             .then(literal("allowInteract").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.actionLimiter.allowInteract = getToggle(c, "toggle");
-                return 1;
+                return OK;
             })))
             .then(literal("allowEnderChest").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.actionLimiter.allowEnderChest = getToggle(c, "toggle");
-                return 1;
+                return OK;
             })))
             .then(literal("allowUseItem").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.actionLimiter.allowUseItem = getToggle(c, "toggle");
-                return 1;
+                return OK;
             })))
             .then(literal("allowBookSigning").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.actionLimiter.allowBookSigning = getToggle(c, "toggle");
-                return 1;
+                return OK;
             })))
             .then(literal("allowChat").then(argument("toggle", toggle()).executes(c -> {
                 CONFIG.client.extra.actionLimiter.allowChat = getToggle(c, "toggle");
-                return 1;
+                return OK;
             })));
     }
 

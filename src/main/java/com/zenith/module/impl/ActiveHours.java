@@ -4,7 +4,7 @@ import com.zenith.Proxy;
 import com.zenith.event.proxy.ActiveHoursConnectEvent;
 import com.zenith.feature.queue.Queue;
 import com.zenith.module.Module;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.time.*;
 import java.util.HashMap;

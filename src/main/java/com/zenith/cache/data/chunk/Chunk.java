@@ -1,6 +1,8 @@
 package com.zenith.cache.data.chunk;
 
+import com.viaversion.nbt.io.MNBTIO;
 import com.viaversion.nbt.mini.MNBT;
+import com.viaversion.nbt.tag.CompoundTag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.geysermc.mcprotocollib.protocol.data.game.chunk.ChunkSection;
@@ -19,7 +21,23 @@ public class Chunk {
     final int minSection;
     final List<BlockEntityInfo> blockEntities;
     LightUpdateData lightUpdateData;
-    MNBT heightMaps;
+
+    static final MNBT EMPTY_HEIGHT_MAP = generateEmptyHeightMap();
+
+    static MNBT generateEmptyHeightMap() {
+        var tag = new CompoundTag();
+        return MNBTIO.write(tag, false);
+    }
+
+    /**
+     * Client do not need a valid heightmap for rendering and gameplay to work
+     *
+     * Also even if we do cache real heightmaps they are not guaranteed to be correct
+     * as we do not have logic to rebuild or mutate heightmaps as block updates occur
+     */
+    public final MNBT getHeightMap() {
+        return EMPTY_HEIGHT_MAP;
+    }
 
     public long getChunkPos() {
         return chunkPosToLong(x, z);

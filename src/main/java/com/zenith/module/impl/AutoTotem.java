@@ -26,7 +26,7 @@ import static java.util.Objects.nonNull;
 
 public class AutoTotem extends AbstractInventoryModule {
     private int delay = 0;
-    private static final int MOVEMENT_PRIORITY = 1000;
+    public static final int MOVEMENT_PRIORITY = 1000;
     private Instant lastNoTotemsAlert = Instant.EPOCH;
     private static final Duration noTotemsAlertCooldown = Duration.ofMinutes(30);
 

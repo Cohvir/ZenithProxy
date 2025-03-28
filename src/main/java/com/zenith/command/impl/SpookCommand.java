@@ -42,17 +42,22 @@ public class SpookCommand extends Command {
                     .title("Spook " + toggleStrCaps(CONFIG.client.extra.spook.enabled));
                 return OK;
             }))
-            .then(literal("mode")
-                      .then(literal("nearest").executes(c -> {
-                          CONFIG.client.extra.spook.spookTargetingMode = Config.Client.Extra.Spook.TargetingMode.NEAREST;
-                          c.getSource().getEmbed()
-                              .title("Spook Mode Updated!");
-                      }))
-                      .then(literal("visualrange").executes(c -> {
-                          CONFIG.client.extra.spook.spookTargetingMode = Config.Client.Extra.Spook.TargetingMode.VISUAL_RANGE;
-                          c.getSource().getEmbed()
-                              .title("Spook Mode Updated!");
-                      })));
+            .then(literal("mode").then(argument("modeArg", enumStrings("nearest", "visualRange")).executes(c -> {
+                var arg = c.getArgument("modeArg", String.class);
+                var mode = switch (arg) {
+                    case "nearest" -> Config.Client.Extra.Spook.TargetingMode.NEAREST;
+                    case "visualRange" -> Config.Client.Extra.Spook.TargetingMode.VISUAL_RANGE;
+                    default -> null;
+                };
+                if (mode == null) {
+                    c.getSource().getEmbed()
+                        .title("Invalid mode: " + arg);
+                    return ERROR;
+                }
+                c.getSource().getEmbed()
+                    .title("Spook Mode Updated!");
+                return OK;
+            })));
     }
 
     @Override

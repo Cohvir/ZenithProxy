@@ -5,8 +5,8 @@ import com.zenith.event.proxy.ServerPlayerConnectedEvent;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
 import com.zenith.util.Config;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundPlayerInfoUpdatePacket;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Objects;
 

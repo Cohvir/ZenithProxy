@@ -2,10 +2,10 @@ package com.zenith.feature.replay;
 
 import com.zenith.module.impl.ReplayMod;
 import com.zenith.network.registry.PacketHandlerCodec;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.network.Session;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.protocol.data.ProtocolState;
+import org.jspecify.annotations.NonNull;
 
 import java.util.EnumMap;
 

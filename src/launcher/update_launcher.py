@@ -125,6 +125,7 @@ def relaunch_executable(os_platform, executable_name):
     if os_platform == OperatingSystem.WINDOWS:
         subprocess.run([executable_name, "--no-launcher-update"])
     else:
+        os.putenv("PYINSTALLER_RESET_ENVIRONMENT", "1")
         os.execl(executable_name, "--no-launcher-update")
 
 

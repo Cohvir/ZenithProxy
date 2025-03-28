@@ -3,7 +3,7 @@ package com.zenith.command.brigadier;
 import com.zenith.discord.Embed;
 import com.zenith.network.server.ServerSession;
 import lombok.Data;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class CommandContext {
     }
 
     public static CommandContext create(final String input, final CommandSource source) {
-        return new CommandContext(input, source, new Embed(), new ArrayList<>(0));
+        return new CommandContext(input.trim(), source, new Embed(), new ArrayList<>(0));
     }
 
     public static CommandContext createInGamePlayerContext(String input, ServerSession session) {

@@ -36,7 +36,7 @@ public class AutoArmorCommand extends Command {
                 c.getSource().getEmbed()
                     .title("AutoArmor " + toggleStrCaps(CONFIG.client.extra.autoArmor.enabled))
                     .primaryColor();
-                return 1;
+                return OK;
             }));
     }
 }

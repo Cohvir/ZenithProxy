@@ -3,12 +3,12 @@ package com.zenith.network.client.handler.incoming.level;
 import com.zenith.event.module.WeatherChangeEvent;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.player.GameMode;
 import org.geysermc.mcprotocollib.protocol.data.game.level.notify.RainStrengthValue;
 import org.geysermc.mcprotocollib.protocol.data.game.level.notify.RespawnScreenValue;
 import org.geysermc.mcprotocollib.protocol.data.game.level.notify.ThunderStrengthValue;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.level.ClientboundGameEventPacket;
+import org.jspecify.annotations.NonNull;
 
 import static com.zenith.Shared.CACHE;
 import static com.zenith.Shared.EVENT_BUS;

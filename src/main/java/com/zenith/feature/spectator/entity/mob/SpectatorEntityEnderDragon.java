@@ -4,7 +4,7 @@ import com.zenith.cache.data.PlayerCache;
 import org.geysermc.mcprotocollib.auth.GameProfile;
 import org.geysermc.mcprotocollib.network.packet.Packet;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.EntityMetadata;
-import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.MetadataType;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.MetadataTypes;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.type.IntEntityMetadata;
 import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
 import org.geysermc.mcprotocollib.protocol.data.game.level.sound.BuiltinSound;
@@ -16,7 +16,7 @@ public class SpectatorEntityEnderDragon extends SpectatorMob {
     @Override
     public ArrayList<EntityMetadata<?, ?>> getBaseEntityMetadata(final GameProfile spectatorProfile, final int spectatorEntityId) {
         return metadataListOf(
-            new IntEntityMetadata(16, MetadataType.INT, 10) // dragon phase
+            new IntEntityMetadata(16, MetadataTypes.INT, 10) // dragon phase
         );
     }
 

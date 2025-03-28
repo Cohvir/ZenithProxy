@@ -3,7 +3,7 @@ package com.zenith.feature.api.sessionserver;
 import com.zenith.feature.api.Api;
 import com.zenith.feature.api.sessionserver.model.*;
 import org.geysermc.mcprotocollib.auth.GameProfile;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;

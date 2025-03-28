@@ -9,8 +9,8 @@ import com.zenith.network.client.ClientSession;
 import com.zenith.network.registry.ClientEventLoopPacketHandler;
 import com.zenith.util.ComponentSerializer;
 import com.zenith.util.Config;
-import lombok.NonNull;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundTabListPacket;
+import org.jspecify.annotations.NonNull;
 
 import java.time.Duration;
 import java.util.Arrays;

@@ -5,10 +5,10 @@ import com.zenith.Proxy;
 import com.zenith.event.proxy.RedisRestartEvent;
 import com.zenith.util.Wait;
 import org.jdbi.v3.core.HandleConsumer;
+import org.jspecify.annotations.Nullable;
 import org.redisson.RedissonShutdownException;
 import org.redisson.api.RLock;
 
-import javax.annotation.Nullable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Queue;

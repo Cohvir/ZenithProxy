@@ -28,7 +28,6 @@ public class SendMessageCommand extends Command {
             )
             .aliases(
                 "say",
-                "msg",
                 "m"
             )
             .build();
@@ -70,7 +69,7 @@ public class SendMessageCommand extends Command {
                                       .title("Failed to send message");
                               }
                           }
-                          return 1;
+                          return OK;
                       }));
     }
 }

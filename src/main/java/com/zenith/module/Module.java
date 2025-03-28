@@ -26,32 +26,43 @@ public abstract class Module {
     public Module() {}
 
     public synchronized void enable() {
-        if (!enabled) {
-            subscribeEvents();
-            enabled = true;
-            clientPacketHandlerCodec = registerClientPacketHandlerCodec();
-            if (clientPacketHandlerCodec != null) {
-                ZenithHandlerCodec.CLIENT_REGISTRY.register(clientPacketHandlerCodec);
+        try {
+            if (!enabled) {
+                subscribeEvents();
+                enabled = true;
+                clientPacketHandlerCodec = registerClientPacketHandlerCodec();
+                if (clientPacketHandlerCodec != null) {
+                    ZenithHandlerCodec.CLIENT_REGISTRY.register(clientPacketHandlerCodec);
+                }
+                serverPacketHandlerCodec = registerServerPacketHandlerCodec();
+                if (serverPacketHandlerCodec != null) {
+                    ZenithHandlerCodec.SERVER_REGISTRY.register(serverPacketHandlerCodec);
+                }
+                onEnable();
+                debug("Enabled");
             }
-            serverPacketHandlerCodec = registerServerPacketHandlerCodec();
-            if (serverPacketHandlerCodec != null) {
-                ZenithHandlerCodec.SERVER_REGISTRY.register(serverPacketHandlerCodec);
-            }
-            onEnable();
+        } catch (Exception e) {
+            error("Error enabling module", e);
+            disable();
         }
     }
 
     public synchronized void disable() {
-        if (enabled) {
-            enabled = false;
-            unsubscribeEvents();
-            if (clientPacketHandlerCodec != null) {
-                ZenithHandlerCodec.CLIENT_REGISTRY.unregister(clientPacketHandlerCodec);
+        try {
+            if (enabled) {
+                enabled = false;
+                unsubscribeEvents();
+                if (clientPacketHandlerCodec != null) {
+                    ZenithHandlerCodec.CLIENT_REGISTRY.unregister(clientPacketHandlerCodec);
+                }
+                if (serverPacketHandlerCodec != null) {
+                    ZenithHandlerCodec.SERVER_REGISTRY.unregister(serverPacketHandlerCodec);
+                }
+                onDisable();
+                debug("Disabled");
             }
-            if (serverPacketHandlerCodec != null) {
-                ZenithHandlerCodec.SERVER_REGISTRY.unregister(serverPacketHandlerCodec);
-            }
-            onDisable();
+        } catch (Exception e) {
+            error("Error disabling module", e);
         }
     }
 

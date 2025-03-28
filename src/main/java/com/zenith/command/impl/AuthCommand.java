@@ -85,35 +85,22 @@ public class AuthCommand extends Command {
                 return OK;
             })))
             .then(literal("type").requires(this::validateDiscordOrTerminalSource)
-                      .then(literal("deviceCode").executes(c -> {
-                          CONFIG.authentication.accountType = Config.Authentication.AccountType.DEVICE_CODE;
-                          c.getSource().getEmbed()
-                              .title("Authentication Type Set")
-                              .primaryColor();
-                          Proxy.getInstance().cancelLogin();
-                          Proxy.getInstance().getAuthenticator().clearAuthCache();
-                          return OK;
-                      }))
-                      .then(literal("emailAndPassword").executes(c -> {
-                          CONFIG.authentication.accountType = Config.Authentication.AccountType.MSA;
-                          c.getSource().getEmbed()
-                              .title("Authentication Type Set")
-                              .primaryColor();
-                          Proxy.getInstance().cancelLogin();
-                          Proxy.getInstance().getAuthenticator().clearAuthCache();
-                          return OK;
-                      }))
-                      .then(literal("deviceCode2").executes(c -> {
-                          CONFIG.authentication.accountType = Config.Authentication.AccountType.DEVICE_CODE_WITHOUT_DEVICE_TOKEN;
-                          c.getSource().getEmbed()
-                              .title("Authentication Type Set")
-                              .primaryColor();
-                          Proxy.getInstance().cancelLogin();
-                          Proxy.getInstance().getAuthenticator().clearAuthCache();
-                          return OK;
-                      }))
-                      .then(literal("prism").executes(c -> {
-                          CONFIG.authentication.accountType = Config.Authentication.AccountType.PRISM;
+                      .then(argument("typeArg", enumStrings("deviceCode", "emailAndPassword", "deviceCode2", "prism")).executes(c -> {
+                          String type = getString(c, "typeArg");
+                          Config.Authentication.AccountType accountType = switch (type) {
+                              case "deviceCode" -> Config.Authentication.AccountType.DEVICE_CODE;
+                              case "emailAndPassword" -> Config.Authentication.AccountType.MSA;
+                              case "deviceCode2" -> Config.Authentication.AccountType.DEVICE_CODE_WITHOUT_DEVICE_TOKEN;
+                              case "prism" -> Config.Authentication.AccountType.PRISM;
+                              default -> null;
+                          };
+                          if (accountType == null) {
+                              c.getSource().getEmbed()
+                                  .title("Invalid Type")
+                                  .errorColor();
+                              return ERROR;
+                          }
+                          CONFIG.authentication.accountType = accountType;
                           c.getSource().getEmbed()
                               .title("Authentication Type Set")
                               .primaryColor();
